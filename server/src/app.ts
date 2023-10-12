@@ -1,5 +1,6 @@
 import express from "express";
-import routes from "./routes/basicRoute";
+import summonRoutes from "./routes/summonRoutes";
+import pokemonRoutes from "./routes/pokemonRoutes";
 import mongoose from "mongoose";
 
 const app = express();
@@ -17,8 +18,8 @@ db.once("open", () => {
   console.log("Connected to MongoDB using Mongoose");
 });
 
-// Use the routes defined in routes.ts
-app.use("/", routes);
+app.use("/summon", summonRoutes);
+app.use("/pokemon", pokemonRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
