@@ -2,9 +2,12 @@ import express from "express";
 import summonRoutes from "./routes/summonRoutes";
 import pokemonRoutes from "./routes/pokemonRoutes";
 import mongoose from "mongoose";
+const cors = require("cors");
 
 const app = express();
 const port = 3001;
+
+app.use(cors());
 
 const uri = "mongodb://localhost:27017/pokemon-idle-db";
 mongoose.connect(uri);
