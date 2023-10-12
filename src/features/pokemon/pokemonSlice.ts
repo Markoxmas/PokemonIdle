@@ -11,11 +11,13 @@ export type Pokemon = {
 export interface PokemonState {
   pokemon: Pokemon[];
   loadStatus: "idle" | "loading" | "succeeded" | "failed";
+  searchInput: string;
 }
 
 const initialState: PokemonState = {
   pokemon: [],
   loadStatus: "idle",
+  searchInput: "",
 };
 
 export const fetchAllPokemon = createAsyncThunk(
@@ -30,7 +32,11 @@ export const fetchAllPokemon = createAsyncThunk(
 export const navigationSlice = createSlice({
   name: "pokemonInventory",
   initialState,
-  reducers: {},
+  reducers: {
+    setSearchInput: (state, action: PayloadAction<string>) => {
+      state.searchInput = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchAllPokemon.pending, (state) => {
@@ -46,6 +52,6 @@ export const navigationSlice = createSlice({
   },
 });
 
-export const {} = navigationSlice.actions;
+export const { setSearchInput } = navigationSlice.actions;
 
 export default navigationSlice.reducer;
