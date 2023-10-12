@@ -4,6 +4,7 @@ export enum Tab {
   Battle,
   Pokemon,
   Summon,
+  Dev,
 }
 
 export interface NavigationState {

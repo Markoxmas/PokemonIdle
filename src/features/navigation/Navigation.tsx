@@ -19,6 +19,7 @@ export default function CenteredTabs() {
         <Tab label="Battle" />
         <Tab label="Pokemon" />
         <Tab label="Summon" />
+        <Tab label="Dev" />
       </Tabs>
     </Box>
   );
