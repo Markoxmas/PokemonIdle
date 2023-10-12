@@ -1,11 +1,13 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import navigationReducer from "../features/navigation/navigationSlice";
 import devReducer from "../features/dev/devSlice";
+import pokemonReducer from "../features/pokemon/pokemonSlice";
 
 export const store = configureStore({
   reducer: {
     navigation: navigationReducer,
     dev: devReducer,
+    pokemon: pokemonReducer,
   },
 });
 
