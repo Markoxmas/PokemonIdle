@@ -46,6 +46,28 @@ export const deleteAllPokemon = createAsyncThunk(
   }
 );
 
+export const deleteInventory = createAsyncThunk(
+  "dev/deleteInventory",
+  async () => {
+    const response = await fetch(`http://localhost:3001/inventory/all`, {
+      method: "DELETE",
+    });
+    const data = await response.json();
+    return data;
+  }
+);
+
+export const createInventory = createAsyncThunk(
+  "dev/createInventory",
+  async () => {
+    const response = await fetch(`http://localhost:3001/inventory/admin`, {
+      method: "POST",
+    });
+    const data = await response.json();
+    return data;
+  }
+);
+
 export const devSlice = createSlice({
   name: "dev",
   initialState,
@@ -73,6 +95,30 @@ export const devSlice = createSlice({
         state.success = action.payload.message;
       })
       .addCase(deleteAllPokemon.rejected, (state, action) => {
+        state.status = RequestStatus.Failure;
+        state.success = null;
+      })
+      .addCase(deleteInventory.pending, (state) => {
+        state.status = RequestStatus.Pending;
+        state.success = null;
+      })
+      .addCase(deleteInventory.fulfilled, (state, action) => {
+        state.status = RequestStatus.Success;
+        state.success = action.payload.message;
+      })
+      .addCase(deleteInventory.rejected, (state, action) => {
+        state.status = RequestStatus.Failure;
+        state.success = null;
+      })
+      .addCase(createInventory.pending, (state) => {
+        state.status = RequestStatus.Pending;
+        state.success = null;
+      })
+      .addCase(createInventory.fulfilled, (state, action) => {
+        state.status = RequestStatus.Success;
+        state.success = action.payload.message;
+      })
+      .addCase(createInventory.rejected, (state, action) => {
         state.status = RequestStatus.Failure;
         state.success = null;
       });

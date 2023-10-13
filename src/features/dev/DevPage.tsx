@@ -2,7 +2,12 @@ import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Box from "@mui/material/Box";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { summonPokemon, deleteAllPokemon } from "./devSlice";
+import {
+  summonPokemon,
+  deleteAllPokemon,
+  deleteInventory,
+  createInventory,
+} from "./devSlice";
 
 export default function DevPage() {
   const dispatch = useAppDispatch();
@@ -40,6 +45,28 @@ export default function DevPage() {
           onClick={() => dispatch(deleteAllPokemon())}
         >
           Delete all pokemons
+        </Button>
+      </ButtonGroup>
+      <ButtonGroup
+        orientation="vertical"
+        aria-label="vertical contained button group"
+        variant="contained"
+      >
+        <Button
+          key="restart-inventory"
+          onClick={() => {
+            dispatch(deleteInventory());
+          }}
+        >
+          Delete inventory
+        </Button>
+        <Button
+          key="create-inventory"
+          onClick={() => {
+            dispatch(createInventory());
+          }}
+        >
+          Create inventory
         </Button>
       </ButtonGroup>
     </Box>
