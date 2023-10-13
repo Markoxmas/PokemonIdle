@@ -4,9 +4,11 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { useAppSelector } from "../../app/hooks";
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import { normalSummonPokemon } from "./summonSlice";
 
 export default function BasicCard() {
+  const dispatch = useAppDispatch();
   const { normalSummonScrolls } = useAppSelector((state) => state.inventory);
   return (
     <Box
@@ -30,10 +32,18 @@ export default function BasicCard() {
           </Typography>
         </CardContent>
         <CardActions style={{ display: "flex", justifyContent: "center" }}>
-          <Button size="small" disabled={normalSummonScrolls < 1}>
+          <Button
+            size="small"
+            disabled={normalSummonScrolls < 1}
+            onClick={() => dispatch(normalSummonPokemon(1))}
+          >
             Summon 1
           </Button>
-          <Button size="small" disabled={normalSummonScrolls < 10}>
+          <Button
+            size="small"
+            disabled={normalSummonScrolls < 10}
+            onClick={() => dispatch(normalSummonPokemon(10))}
+          >
             Summon 10
           </Button>
         </CardActions>

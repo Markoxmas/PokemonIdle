@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { normalSummonPokemon } from "../summon/summonSlice";
 
 export type Pokemon = {
   _id: string;
@@ -48,6 +49,9 @@ export const navigationSlice = createSlice({
       })
       .addCase(fetchAllPokemon.rejected, (state) => {
         state.loadStatus = "failed";
+      })
+      .addCase(normalSummonPokemon.fulfilled, (state, action) => {
+        state.pokemon = [...state.pokemon, ...action.payload.summonedPokemon];
       });
   },
 });
