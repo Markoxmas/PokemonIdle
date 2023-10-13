@@ -1,8 +1,13 @@
+import Container from "@mui/material/Container";
+import NormalSummon from "./NormalSummon";
+
 function SummonPage() {
   return (
-    <div style={{ textAlign: "center" }}>
-      <h1>Summon page</h1>
-    </div>
+    <Container
+      style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}
+    >
+      <NormalSummon />
+    </Container>
   );
 }
 
