@@ -3,6 +3,7 @@ import BattlePage from "./features/battle/BattlePage";
 import PokemonPage from "./features/pokemon/PokemonPage";
 import SummonPage from "./features/summon/SummonPage";
 import DevPage from "./features/dev/DevPage";
+import UpgradePage from "./features/upgrade/UpgradePage";
 import { Tab } from "./features/navigation/navigationSlice";
 import { useAppSelector } from "./app/hooks";
 import { useEffect } from "react";
@@ -24,6 +25,7 @@ function App() {
       {tab === Tab.Pokemon && <PokemonPage />}
       {tab === Tab.Summon && <SummonPage />}
       {tab === Tab.Dev && <DevPage />}
+      {tab === Tab.Upgrade && <UpgradePage />}
     </div>
   );
 }

@@ -3,6 +3,8 @@ import Paper from "@mui/material/Paper";
 import { AVATAR } from "../../assets/avatars/index";
 import StarIcon from "@mui/icons-material/Star";
 import { Pokemon } from "./pokemonSlice";
+import { useAppDispatch } from "../../app/hooks";
+import { setTab, Tab } from "../navigation/navigationSlice";
 
 const renderStars = (amount: number) => {
   const stars = [];
@@ -20,6 +22,7 @@ const renderStars = (amount: number) => {
 };
 
 export default function PokemonCard({ pokemon }: { pokemon: Pokemon }) {
+  const dispatch = useAppDispatch();
   return (
     <Box
       sx={{
@@ -31,7 +34,11 @@ export default function PokemonCard({ pokemon }: { pokemon: Pokemon }) {
         textAlign: "center",
       }}
     >
-      <Paper elevation={3} sx={{ display: "inline-block", padding: "10px" }}>
+      <Paper
+        elevation={3}
+        sx={{ display: "inline-block", padding: "10px" }}
+        onClick={() => dispatch(setTab(Tab.Upgrade))}
+      >
         <div>
           <b>{pokemon.name} </b> ({pokemon.level})
         </div>

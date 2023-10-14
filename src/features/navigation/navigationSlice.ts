@@ -5,6 +5,7 @@ export enum Tab {
   Pokemon,
   Summon,
   Dev,
+  Upgrade,
 }
 
 export interface NavigationState {
@@ -12,7 +13,7 @@ export interface NavigationState {
 }
 
 const initialState: NavigationState = {
-  tab: Tab.Summon,
+  tab: Tab.Pokemon,
 };
 
 export const navigationSlice = createSlice({
