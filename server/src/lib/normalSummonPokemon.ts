@@ -1,4 +1,5 @@
 import getPokedex from "./getPokedex";
+import calculateCp from "./calculateCp";
 
 const starChances = [0.5, 0.9, 1.0];
 
@@ -17,11 +18,16 @@ export const normalSummonPokemon = () => {
   const chosenPokemon =
     basicPokemon[Math.floor(Math.random() * basicPokemon.length)];
   const starRoll = Math.random();
-  return {
+
+  let pokemon = {
     user: "admin",
     name: chosenPokemon.name,
     level: 1,
     stars: getStars(starRoll),
-    cp: Math.floor(Math.random() * 10000) + 1,
+    cp: 0,
   };
+
+  pokemon = calculateCp(pokemon);
+
+  return pokemon;
 };
