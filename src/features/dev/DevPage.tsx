@@ -7,6 +7,7 @@ import {
   deleteAllPokemon,
   deleteInventory,
   createInventory,
+  addNormalSummonScrolls,
 } from "./devSlice";
 
 export default function DevPage() {
@@ -67,6 +68,12 @@ export default function DevPage() {
           }}
         >
           Create inventory
+        </Button>
+        <Button
+          key="add-100-normal-summon-scrolls"
+          onClick={() => dispatch(addNormalSummonScrolls(100))}
+        >
+          Add 100 normal summon scrolls
         </Button>
       </ButtonGroup>
     </Box>

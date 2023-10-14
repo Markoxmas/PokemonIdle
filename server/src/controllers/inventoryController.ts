@@ -87,3 +87,37 @@ export const deleteUsersInventoryController = async (
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+export const addNormalSummonScrollsController = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const user = req.params.user;
+    const amount = parseInt(req.params.amount, 10);
+
+    if (isNaN(amount) || amount <= 0) {
+      res.status(400).json({ message: "Invalid 'amount' parameter" });
+      return;
+    }
+
+    const inventory = await Inventory.findOne({ user });
+
+    if (!inventory) {
+      res.status(404).json({ message: "Inventory not found" });
+      return;
+    }
+
+    inventory.normalSummonScrolls += amount;
+
+    await inventory.save();
+
+    res.status(200).json({
+      message: `Added ${amount} normal summon scrolls to ${user}'s inventory`,
+      inventory,
+    });
+  } catch (error) {
+    console.error("Error adding normal summon scrolls:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
