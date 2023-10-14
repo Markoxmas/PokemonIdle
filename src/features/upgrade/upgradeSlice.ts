@@ -1,5 +1,11 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+export type SacrificeSlot = {
+  name: string | null;
+  stars: number;
+  amount: number;
+};
+
 export interface UpgradeState {
   pokemonId: string;
 }

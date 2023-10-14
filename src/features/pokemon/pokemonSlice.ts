@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { normalSummonPokemon } from "../summon/summonSlice";
 import { initializeApp } from "../init/initSlice";
 import { levelUpPokemon } from "../upgrade/upgradeSlice";
+import { SacrificeSlot } from "../upgrade/upgradeSlice";
 
 export type Pokemon = {
   _id: string;
@@ -9,6 +10,7 @@ export type Pokemon = {
   level: number;
   stars: number;
   cp: number;
+  sacrifices: SacrificeSlot[];
 };
 
 export interface PokemonState {

@@ -25,6 +25,18 @@ export const normalSummonPokemon = () => {
     level: 1,
     stars: getStars(starRoll),
     cp: 0,
+    sacrifices: [
+      {
+        name: chosenPokemon.name,
+        stars: 3,
+        amount: 1,
+      },
+      {
+        name: null,
+        stars: 4,
+        amount: 2,
+      },
+    ],
   };
 
   pokemon.cp = calculateCp(pokemon);
