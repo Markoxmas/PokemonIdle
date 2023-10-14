@@ -67,3 +67,23 @@ export const deleteAllInventoriesController = async (
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+export const deleteUsersInventoryController = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const user = req.params.user;
+
+    const result = await Inventory.deleteOne({ user });
+
+    if (result.deletedCount) {
+      res.status(200).json({ message: "Inventory deleted successfully" });
+    } else {
+      res.status(404).json({ message: "Inventory not found" });
+    }
+  } catch (error) {
+    console.error("Error deleting inventory:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
