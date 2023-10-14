@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { normalSummonPokemon } from "../summon/summonSlice";
+import { initializeApp } from "../init/initSlice";
 
 export interface InventoryState {
   normalSummonScrolls: number;
 }
 
 const initialState: InventoryState = {
-  normalSummonScrolls: 11,
+  normalSummonScrolls: 0,
 };
 
 export const inventorySlice = createSlice({
@@ -14,9 +15,14 @@ export const inventorySlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(normalSummonPokemon.fulfilled, (state, action) => {
-      state.normalSummonScrolls -= action.payload.normalSummonScrollsAmount;
-    });
+    builder
+      .addCase(normalSummonPokemon.fulfilled, (state, action) => {
+        state.normalSummonScrolls -= action.payload.normalSummonScrollsAmount;
+      })
+      .addCase(initializeApp.fulfilled, (state, action) => {
+        state.normalSummonScrolls =
+          action.payload.inventory.normalSummonScrolls;
+      });
   },
 });
 

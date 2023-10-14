@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { normalSummonPokemon } from "../summon/summonSlice";
+import { initializeApp } from "../init/initSlice";
 
 export type Pokemon = {
   _id: string;
@@ -52,6 +53,9 @@ export const navigationSlice = createSlice({
       })
       .addCase(normalSummonPokemon.fulfilled, (state, action) => {
         state.pokemon = [...state.pokemon, ...action.payload.summonedPokemon];
+      })
+      .addCase(initializeApp.fulfilled, (state, action) => {
+        state.pokemon = action.payload.pokemon;
       });
   },
 });

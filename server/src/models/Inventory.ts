@@ -2,13 +2,13 @@ import mongoose, { Document, Schema } from "mongoose";
 
 export interface InventoryDocument extends Document {
   user: string;
-  normalScrollsOfSummon: number;
+  normalSummonScrolls: number;
   gold: number;
 }
 
 const inventorySchema = new Schema<InventoryDocument>({
   user: { type: String, required: true },
-  normalScrollsOfSummon: { type: Number, required: true, default: 0 },
+  normalSummonScrolls: { type: Number, required: true, default: 0 },
   gold: { type: Number, required: true, default: 0 },
 });
 

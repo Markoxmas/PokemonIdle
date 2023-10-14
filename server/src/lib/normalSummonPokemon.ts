@@ -18,6 +18,7 @@ export const normalSummonPokemon = () => {
     basicPokemon[Math.floor(Math.random() * basicPokemon.length)];
   const starRoll = Math.random();
   return {
+    user: "admin",
     name: chosenPokemon.name,
     level: 1,
     stars: getStars(starRoll),

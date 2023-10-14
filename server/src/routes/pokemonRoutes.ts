@@ -6,7 +6,7 @@ import {
 
 const router = express.Router();
 
-router.get("/", getAllPokemonController);
-router.delete("/all", deleteAllPokemonController);
+router.get("/:user", getAllPokemonController);
+router.delete("/:user", deleteAllPokemonController);
 
 export default router;

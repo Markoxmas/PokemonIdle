@@ -8,6 +8,7 @@ interface IPokemon extends Document {
 }
 
 const PokemonSchema: Schema = new Schema({
+  user: { type: String, required: true },
   name: { type: String, required: true },
   level: { type: Number, required: true },
   stars: { type: Number, required: true },

@@ -6,7 +6,10 @@ export const getAllPokemonController = async (
   res: Response
 ): Promise<void> => {
   try {
-    const pokemonInventory = await PokemonModel.find();
+    const { user } = req.params;
+
+    const pokemonInventory = await PokemonModel.find({ user });
+
     res.json({ pokemonInventory });
   } catch (error) {
     res.status(500).json({ message: "Failed to retrieve Pokémon inventory!" });
@@ -18,8 +21,11 @@ export const deleteAllPokemonController = async (
   res: Response
 ): Promise<void> => {
   try {
-    await PokemonModel.deleteMany();
-    res.json({ message: "Deleted all Pokémon!" });
+    const { user } = req.params;
+
+    await PokemonModel.deleteMany({ user });
+
+    res.json({ message: `Deleted all Pokémon for ${user}!` });
   } catch (error) {
     res.status(500).json({ message: "Failed to delete all Pokémon!" });
   }

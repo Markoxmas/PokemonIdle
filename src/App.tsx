@@ -5,9 +5,18 @@ import SummonPage from "./features/summon/SummonPage";
 import DevPage from "./features/dev/DevPage";
 import { Tab } from "./features/navigation/navigationSlice";
 import { useAppSelector } from "./app/hooks";
+import { useEffect } from "react";
+import { initializeApp } from "./features/init/initSlice";
+import { useAppDispatch } from "./app/hooks";
 
 function App() {
+  const dispatch = useAppDispatch();
   const tab = useAppSelector((state) => state.navigation.tab);
+
+  useEffect(() => {
+    dispatch(initializeApp());
+  }, []);
+
   return (
     <div>
       <Navigation />
