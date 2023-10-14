@@ -4,6 +4,7 @@ import devReducer from "../features/dev/devSlice";
 import pokemonReducer from "../features/pokemon/pokemonSlice";
 import inventoryReducer from "../features/inventory/inventorySlice";
 import summonReducer from "../features/summon/summonSlice";
+import upgradeReducer from "../features/upgrade/upgradeSlice";
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     pokemon: pokemonReducer,
     inventory: inventoryReducer,
     summon: summonReducer,
+    upgrade: upgradeReducer,
   },
 });
 

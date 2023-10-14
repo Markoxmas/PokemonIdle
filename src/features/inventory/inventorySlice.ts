@@ -4,10 +4,12 @@ import { initializeApp } from "../init/initSlice";
 
 export interface InventoryState {
   normalSummonScrolls: number;
+  exp: number;
 }
 
 const initialState: InventoryState = {
   normalSummonScrolls: 0,
+  exp: 0,
 };
 
 export const inventorySlice = createSlice({
@@ -22,6 +24,7 @@ export const inventorySlice = createSlice({
       .addCase(initializeApp.fulfilled, (state, action) => {
         state.normalSummonScrolls =
           action.payload.inventory.normalSummonScrolls;
+        state.exp = action.payload.inventory.exp;
       });
   },
 });

@@ -5,6 +5,7 @@ import StarIcon from "@mui/icons-material/Star";
 import { Pokemon } from "./pokemonSlice";
 import { useAppDispatch } from "../../app/hooks";
 import { setTab, Tab } from "../navigation/navigationSlice";
+import { setUpgradePokemonId } from "../upgrade/upgradeSlice";
 
 const renderStars = (amount: number) => {
   const stars = [];
@@ -37,7 +38,10 @@ export default function PokemonCard({ pokemon }: { pokemon: Pokemon }) {
       <Paper
         elevation={3}
         sx={{ display: "inline-block", padding: "10px" }}
-        onClick={() => dispatch(setTab(Tab.Upgrade))}
+        onClick={() => {
+          dispatch(setUpgradePokemonId(pokemon._id));
+          dispatch(setTab(Tab.Upgrade));
+        }}
       >
         <div>
           <b>{pokemon.name} </b> ({pokemon.level})

@@ -82,6 +82,17 @@ export const addNormalSummonScrolls = createAsyncThunk(
   }
 );
 
+export const addExp = createAsyncThunk("dev/addExp", async (amount: number) => {
+  const response = await fetch(
+    `http://localhost:3001/inventory/admin/exp/${amount}`,
+    {
+      method: "PATCH",
+    }
+  );
+  const data = await response.json();
+  return data;
+});
+
 export const devSlice = createSlice({
   name: "dev",
   initialState,
@@ -145,6 +156,18 @@ export const devSlice = createSlice({
         state.success = action.payload.message;
       })
       .addCase(addNormalSummonScrolls.rejected, (state, action) => {
+        state.status = RequestStatus.Failure;
+        state.success = null;
+      })
+      .addCase(addExp.pending, (state) => {
+        state.status = RequestStatus.Pending;
+        state.success = null;
+      })
+      .addCase(addExp.fulfilled, (state, action) => {
+        state.status = RequestStatus.Success;
+        state.success = action.payload.message;
+      })
+      .addCase(addExp.rejected, (state, action) => {
         state.status = RequestStatus.Failure;
         state.success = null;
       });

@@ -5,6 +5,7 @@ import {
   deleteUsersInventoryController,
   deleteAllInventoriesController,
   addNormalSummonScrollsController,
+  addExpController,
 } from "../controllers/inventoryController";
 
 const router = express.Router();
@@ -17,5 +18,6 @@ router.patch(
   "/:user/normalSummonScrolls/:amount",
   addNormalSummonScrollsController
 );
+router.patch("/:user/exp/:amount", addExpController);
 
 export default router;

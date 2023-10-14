@@ -8,6 +8,7 @@ import {
   deleteInventory,
   createInventory,
   addNormalSummonScrolls,
+  addExp,
 } from "./devSlice";
 
 export default function DevPage() {
@@ -74,6 +75,12 @@ export default function DevPage() {
           onClick={() => dispatch(addNormalSummonScrolls(100))}
         >
           Add 100 normal summon scrolls
+        </Button>
+        <Button
+          key="add-100-normal-summon-scrolls"
+          onClick={() => dispatch(addExp(10000))}
+        >
+          Add 10000 exp
         </Button>
       </ButtonGroup>
     </Box>
