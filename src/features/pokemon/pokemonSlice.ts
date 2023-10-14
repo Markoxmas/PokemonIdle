@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { normalSummonPokemon } from "../summon/summonSlice";
 import { initializeApp } from "../init/initSlice";
+import { levelUpPokemon } from "../upgrade/upgradeSlice";
 
 export type Pokemon = {
   _id: string;
@@ -56,6 +57,13 @@ export const navigationSlice = createSlice({
       })
       .addCase(initializeApp.fulfilled, (state, action) => {
         state.pokemon = action.payload.pokemon;
+      })
+      .addCase(levelUpPokemon.fulfilled, (state, action) => {
+        state.pokemon = state.pokemon.map((pokemon) => {
+          return pokemon._id === action.payload.pokemon._id
+            ? action.payload.pokemon
+            : pokemon;
+        });
       });
   },
 });

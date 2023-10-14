@@ -1,6 +1,7 @@
 import Button from "@mui/material/Button";
-import { useAppSelector } from "../../app/hooks";
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { AVATAR } from "../../assets/avatars/index";
+import { levelUpPokemon } from "./upgradeSlice";
 
 import StarIcon from "@mui/icons-material/Star";
 
@@ -20,6 +21,7 @@ const renderStars = (amount: number) => {
 };
 
 function UpgradePage() {
+  const dispatch = useAppDispatch();
   const allPokemon = useAppSelector((state) => state.pokemon.pokemon);
   const selectedPokemonId = useAppSelector((state) => state.upgrade.pokemonId);
   const selectedPokemon = allPokemon.find(
@@ -45,7 +47,11 @@ function UpgradePage() {
             <div>{renderStars(selectedPokemon.stars)}</div>
           </div>
           <div style={{ margin: "20px" }}>
-            <Button variant="contained" disabled={inventory.exp < 1000}>
+            <Button
+              variant="contained"
+              disabled={inventory.exp < 1000}
+              onClick={() => dispatch(levelUpPokemon(selectedPokemon._id))}
+            >
               Level up (1000 exp)
             </Button>
             <div>You have {inventory.exp} exp</div>

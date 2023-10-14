@@ -27,7 +27,7 @@ export const normalSummonPokemon = () => {
     cp: 0,
   };
 
-  pokemon = calculateCp(pokemon);
+  pokemon.cp = calculateCp(pokemon);
 
   return pokemon;
 };

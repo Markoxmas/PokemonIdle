@@ -1,6 +1,7 @@
 import mongoose, { Document, Schema } from "mongoose";
 
 interface IPokemon extends Document {
+  user: string;
   name: string;
   level: number;
   stars: number;

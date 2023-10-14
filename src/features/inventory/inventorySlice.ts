@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { normalSummonPokemon } from "../summon/summonSlice";
 import { initializeApp } from "../init/initSlice";
+import { levelUpPokemon } from "../upgrade/upgradeSlice";
 
 export interface InventoryState {
   normalSummonScrolls: number;
@@ -25,6 +26,9 @@ export const inventorySlice = createSlice({
         state.normalSummonScrolls =
           action.payload.inventory.normalSummonScrolls;
         state.exp = action.payload.inventory.exp;
+      })
+      .addCase(levelUpPokemon.fulfilled, (state, action) => {
+        state.exp = action.payload.newExp;
       });
   },
 });

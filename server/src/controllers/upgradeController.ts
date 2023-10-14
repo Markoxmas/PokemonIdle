@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import PokemonModel from "../models/Pokemon";
 import Inventory from "../models/Inventory";
+import calculateCp from "../lib/calculateCp";
 
 export const levelUpController = async (
   req: Request,
@@ -9,7 +10,6 @@ export const levelUpController = async (
   try {
     const { id, user } = req.params;
 
-    // Find the Pokemon
     const pokemon = await PokemonModel.findOne({ _id: id, user });
 
     if (!pokemon) {
@@ -17,7 +17,6 @@ export const levelUpController = async (
       return;
     }
 
-    // Find the user's inventory
     const inventory = await Inventory.findOne({ user });
 
     if (!inventory) {
@@ -25,19 +24,19 @@ export const levelUpController = async (
       return;
     }
 
-    // Check if the user has enough exp
     if (inventory.exp >= 1000) {
-      // Increase the Pokemon's level by 1
       pokemon.level++;
+      pokemon.cp = calculateCp(pokemon);
 
-      // Decrease the user's exp by 1000
       inventory.exp -= 1000;
 
-      // Save the updated Pokemon and inventory
       await pokemon.save();
       await inventory.save();
 
-      res.json({ newLevel: pokemon.level, newExp: inventory.exp });
+      res.json({
+        pokemon: pokemon,
+        newExp: inventory.exp,
+      });
     } else {
       res.status(400).json({ message: "Not enough exp to level up" });
     }

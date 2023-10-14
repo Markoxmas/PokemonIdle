@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface UpgradeState {
   pokemonId: string;
@@ -7,6 +7,20 @@ export interface UpgradeState {
 const initialState: UpgradeState = {
   pokemonId: "",
 };
+
+export const levelUpPokemon = createAsyncThunk(
+  "upgrade/levelUpPokemon",
+  async (pokemonId: string) => {
+    const response = await fetch(
+      `http://localhost:3001/upgrade/levelup/admin/${pokemonId}`,
+      {
+        method: "PATCH",
+      }
+    );
+    const data = await response.json();
+    return data;
+  }
+);
 
 export const upgradeSlice = createSlice({
   name: "upgrade",
