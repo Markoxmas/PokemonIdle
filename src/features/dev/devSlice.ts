@@ -38,7 +38,7 @@ export const summonPokemon = createAsyncThunk(
 export const deleteAllPokemon = createAsyncThunk(
   "dev/deleteAllPokemon",
   async () => {
-    const response = await fetch(`http://localhost:3001/pokemon/all`, {
+    const response = await fetch(`http://localhost:3001/pokemon/admin`, {
       method: "DELETE",
     });
     const data = await response.json();
@@ -49,7 +49,7 @@ export const deleteAllPokemon = createAsyncThunk(
 export const deleteInventory = createAsyncThunk(
   "dev/deleteInventory",
   async () => {
-    const response = await fetch(`http://localhost:3001/inventory/all`, {
+    const response = await fetch(`http://localhost:3001/inventory/admin`, {
       method: "DELETE",
     });
     const data = await response.json();
