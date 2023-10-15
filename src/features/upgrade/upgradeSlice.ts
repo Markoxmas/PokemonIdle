@@ -109,6 +109,7 @@ export const upgradeSlice = createSlice({
       })
       .addCase(starUpPokemon.fulfilled, (state) => {
         state.statusStarUp = "succeeded";
+        state.sacrifices = state.sacrifices.map(() => []);
       })
       .addCase(starUpPokemon.rejected, (state) => {
         state.statusStarUp = "failed";
