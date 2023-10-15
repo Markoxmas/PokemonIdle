@@ -3,6 +3,7 @@ import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { levelUpPokemon } from "./upgradeSlice";
 import UpgradePokemonCard from "../pokemon/UpgradePokemonCard";
 import SacrificeSlotPokemonCard from "../pokemon/SacrificeSlotPokemonCard";
+import UpgradeModal from "./UpgradeModal";
 
 function UpgradePage() {
   const dispatch = useAppDispatch();
@@ -34,10 +35,14 @@ function UpgradePage() {
             <div>You have {inventory.exp} exp</div>
           </div>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            {selectedPokemon.sacrifices.map((sacrificeSlot) => (
-              <SacrificeSlotPokemonCard sacrificeSlot={sacrificeSlot} />
+            {selectedPokemon.sacrifices.map((sacrificeSlot, i) => (
+              <SacrificeSlotPokemonCard
+                sacrificeSlot={sacrificeSlot}
+                slot={i}
+              />
             ))}
           </div>
+          <UpgradeModal />
         </div>
       )}
     </div>

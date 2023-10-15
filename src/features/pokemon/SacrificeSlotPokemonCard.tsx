@@ -3,6 +3,8 @@ import { AVATAR } from "../../assets/avatars/index";
 import sacrificePokeball from "../../assets/icons/sacrificePokeball.png";
 import { SacrificeSlot } from "../upgrade/upgradeSlice";
 import Paper from "@mui/material/Paper";
+import { openSacrificeModal } from "../upgrade/upgradeSlice";
+import { useAppDispatch } from "../../app/hooks";
 
 const renderStars = (amount: number) => {
   const stars = [];
@@ -12,7 +14,9 @@ const renderStars = (amount: number) => {
     }
   } else {
     for (let i = 0; i < amount - 5; i++) {
-      stars.push(<StarIcon key={i} style={{ color: "red" }} />);
+      stars.push(
+        <StarIcon key={i} style={{ color: "red" }} sx={{ width: "15px" }} />
+      );
     }
   }
 
@@ -21,11 +25,18 @@ const renderStars = (amount: number) => {
 
 function SacrificeSlotPokemonCard({
   sacrificeSlot,
+  slot,
 }: {
   sacrificeSlot: SacrificeSlot;
+  slot: number;
 }) {
+  const dispatch = useAppDispatch();
   return (
-    <Paper elevation={1} sx={{ display: "inline-block", padding: "5px" }}>
+    <Paper
+      elevation={1}
+      sx={{ display: "inline-block", padding: "5px", margin: "10px" }}
+      onClick={() => dispatch(openSacrificeModal({ sacrificeSlot, slot }))}
+    >
       <div>0/{sacrificeSlot.amount}</div>
       {sacrificeSlot.name ? (
         <div>
@@ -36,13 +47,13 @@ function SacrificeSlotPokemonCard({
       )}
       {sacrificeSlot.name ? (
         <img
-          width={150}
+          width={100}
           src={AVATAR[sacrificeSlot.name]}
           alt={sacrificeSlot.name}
         />
       ) : (
         <div>
-          <img width={150} src={sacrificePokeball} alt="Any pokemon" />
+          <img width={100} src={sacrificePokeball} alt="Any pokemon" />
         </div>
       )}
       <div>{renderStars(sacrificeSlot.stars)}</div>
