@@ -3,8 +3,9 @@ import Paper from "@mui/material/Paper";
 import { AVATAR } from "../../assets/avatars/index";
 import StarIcon from "@mui/icons-material/Star";
 import { Pokemon } from "./pokemonSlice";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { toggleSacrifice } from "../upgrade/upgradeSlice";
+import { useState, useEffect } from "react";
 
 const renderStars = (amount: number) => {
   const stars = [];
@@ -27,6 +28,17 @@ export default function SacrificePokemonCard({
   pokemon: Pokemon;
 }) {
   const dispatch = useAppDispatch();
+  const { sacrifices, sacrificeSlot } = useAppSelector(
+    (state) => state.upgrade
+  );
+  const [sacrificeIds, setSacrificeIds] = useState(
+    sacrifices[sacrificeSlot.slot] || []
+  );
+
+  useEffect(() => {
+    setSacrificeIds(sacrifices[sacrificeSlot.slot] || []);
+  }, [sacrifices]);
+
   return (
     <Box
       sx={{
@@ -44,6 +56,11 @@ export default function SacrificePokemonCard({
         onClick={() => {
           dispatch(toggleSacrifice(pokemon._id));
         }}
+        style={
+          sacrificeIds.includes(pokemon._id)
+            ? { border: "3px solid black" }
+            : {}
+        }
       >
         <div>
           <b>{pokemon.name} </b> ({pokemon.level})

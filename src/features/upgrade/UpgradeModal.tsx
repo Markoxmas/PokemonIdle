@@ -50,7 +50,7 @@ export default function SummonModal() {
               component="h2"
               style={{ marginBottom: "20px" }}
             >
-              0/2
+              {sacrifices[sacrificeSlot.slot].length}/{sacrificeSlot.amount}
             </Typography>
             <div
               style={{
@@ -59,7 +59,7 @@ export default function SummonModal() {
                 justifyContent: "center",
               }}
             >
-              {sacrificeSlot?.name &&
+              {sacrificeSlot.name &&
                 pokemon
                   .filter(
                     (p) =>
@@ -68,7 +68,7 @@ export default function SummonModal() {
                       p.stars === sacrificeSlot.stars
                   )
                   .map((p) => <SacrificePokemonCard pokemon={p} />)}
-              {sacrificeSlot?.name === null &&
+              {sacrificeSlot.name === null &&
                 pokemon
                   .filter(
                     (p) =>

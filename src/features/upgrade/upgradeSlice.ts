@@ -11,14 +11,14 @@ export type SacrificeSlot = {
 export interface UpgradeState {
   pokemonId: string;
   sacrifices: Array<Array<string>>;
-  sacrificeSlot: SacrificeSlot | null;
+  sacrificeSlot: SacrificeSlot;
   openSacrificeModal: boolean;
 }
 
 const initialState: UpgradeState = {
   pokemonId: "",
   sacrifices: [],
-  sacrificeSlot: null,
+  sacrificeSlot: { name: null, stars: 0, amount: 0, slot: 0 },
   openSacrificeModal: false,
 };
 
@@ -53,12 +53,14 @@ export const upgradeSlice = createSlice({
     },
     toggleSacrifice: (state, action: PayloadAction<string>) => {
       const id = action.payload;
+      const slot = state.sacrificeSlot.slot;
 
-      if (state.sacrificeSlot) {
-        const slot = state.sacrificeSlot.slot;
-        state.sacrifices[slot] = state.sacrifices[slot].includes(id)
-          ? state.sacrifices[slot].filter((sacrifice) => sacrifice !== id)
-          : [...state.sacrifices[slot], id];
+      if (state.sacrifices[slot].includes(id)) {
+        state.sacrifices[slot] = state.sacrifices[slot].filter(
+          (sacrifice) => sacrifice !== id
+        );
+      } else if (state.sacrificeSlot.amount > state.sacrifices[slot].length) {
+        state.sacrifices[slot] = [...state.sacrifices[slot], id];
       }
     },
   },

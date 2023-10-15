@@ -4,7 +4,7 @@ import sacrificePokeball from "../../assets/icons/sacrificePokeball.png";
 import { SacrificeSlot } from "../upgrade/upgradeSlice";
 import Paper from "@mui/material/Paper";
 import { openSacrificeModal } from "../upgrade/upgradeSlice";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 const renderStars = (amount: number) => {
   const stars = [];
@@ -29,13 +29,19 @@ function SacrificeSlotPokemonCard({
   sacrificeSlot: SacrificeSlot;
 }) {
   const dispatch = useAppDispatch();
+  const { sacrifices } = useAppSelector((state) => state.upgrade);
+  const chosenSacrifices = sacrifices[sacrificeSlot.slot].length;
+  const neededSacrifices = sacrificeSlot.amount;
   return (
     <Paper
       elevation={1}
       sx={{ display: "inline-block", padding: "5px", margin: "10px" }}
       onClick={() => dispatch(openSacrificeModal(sacrificeSlot))}
+      style={chosenSacrifices !== neededSacrifices ? { opacity: 0.5 } : {}}
     >
-      <div>0/{sacrificeSlot.amount}</div>
+      <div>
+        {chosenSacrifices}/{neededSacrifices}
+      </div>
       {sacrificeSlot.name ? (
         <div>
           <b>{sacrificeSlot.name}</b>
