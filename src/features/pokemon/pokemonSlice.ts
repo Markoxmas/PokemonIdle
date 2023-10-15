@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { normalSummonPokemon } from "../summon/summonSlice";
 import { initializeApp } from "../init/initSlice";
-import { levelUpPokemon } from "../upgrade/upgradeSlice";
+import { levelUpPokemon, starUpPokemon } from "../upgrade/upgradeSlice";
 import { SacrificeSlot } from "../upgrade/upgradeSlice";
 
 export type Pokemon = {
@@ -66,6 +66,18 @@ export const navigationSlice = createSlice({
             ? action.payload.pokemon
             : pokemon;
         });
+      })
+      .addCase(starUpPokemon.fulfilled, (state, action) => {
+        //upgrade starred up pokemon
+        state.pokemon = state.pokemon.map((pokemon) =>
+          pokemon._id === action.payload.pokemon._id
+            ? action.payload.pokemon
+            : pokemon
+        );
+        //remove sacrificed pokemon
+        state.pokemon = state.pokemon.filter(
+          (pokemon) => !action.payload.sacrificedPokemon.includes(pokemon._id)
+        );
       });
   },
 });

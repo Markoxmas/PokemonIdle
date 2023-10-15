@@ -11,6 +11,7 @@ const app = express();
 const port = 3001;
 
 app.use(cors());
+app.use(express.json());
 
 const uri = "mongodb://localhost:27017/pokemon-idle-db";
 mongoose.connect(uri);

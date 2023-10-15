@@ -1,6 +1,6 @@
 import Button from "@mui/material/Button";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { levelUpPokemon } from "./upgradeSlice";
+import { levelUpPokemon, starUpPokemon } from "./upgradeSlice";
 import UpgradePokemonCard from "../pokemon/UpgradePokemonCard";
 import SacrificeSlotPokemonCard from "../pokemon/SacrificeSlotPokemonCard";
 import UpgradeModal from "./UpgradeModal";
@@ -56,7 +56,11 @@ function UpgradePage() {
           <Button
             variant="contained"
             disabled={!sacrificesFulfilled}
-            onClick={() => {}}
+            onClick={() =>
+              dispatch(
+                starUpPokemon({ pokemonId: selectedPokemon._id, sacrifices })
+              )
+            }
           >
             Star up
           </Button>

@@ -13,6 +13,8 @@ export interface UpgradeState {
   sacrifices: Array<Array<string>>;
   sacrificeSlot: SacrificeSlot;
   openSacrificeModal: boolean;
+  statusLevelUp: "idle" | "loading" | "succeeded" | "failed";
+  statusStarUp: "idle" | "loading" | "succeeded" | "failed";
 }
 
 const initialState: UpgradeState = {
@@ -20,6 +22,8 @@ const initialState: UpgradeState = {
   sacrifices: [],
   sacrificeSlot: { name: null, stars: 0, amount: 0, slot: 0 },
   openSacrificeModal: false,
+  statusLevelUp: "idle",
+  statusStarUp: "idle",
 };
 
 export const levelUpPokemon = createAsyncThunk(
@@ -31,6 +35,31 @@ export const levelUpPokemon = createAsyncThunk(
         method: "PATCH",
       }
     );
+    const data = await response.json();
+    return data;
+  }
+);
+
+export const starUpPokemon = createAsyncThunk(
+  "upgrade/starUpPokemon",
+  async ({
+    pokemonId,
+    sacrifices,
+  }: {
+    pokemonId: string;
+    sacrifices: Array<Array<string>>;
+  }) => {
+    const response = await fetch(
+      `http://localhost:3001/upgrade/starup/admin/${pokemonId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ sacrifices }),
+      }
+    );
+
     const data = await response.json();
     return data;
   }
@@ -63,6 +92,27 @@ export const upgradeSlice = createSlice({
         state.sacrifices[slot] = [...state.sacrifices[slot], id];
       }
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(levelUpPokemon.pending, (state) => {
+        state.statusLevelUp = "loading";
+      })
+      .addCase(levelUpPokemon.fulfilled, (state) => {
+        state.statusLevelUp = "succeeded";
+      })
+      .addCase(levelUpPokemon.rejected, (state) => {
+        state.statusLevelUp = "failed";
+      })
+      .addCase(starUpPokemon.pending, (state) => {
+        state.statusStarUp = "loading";
+      })
+      .addCase(starUpPokemon.fulfilled, (state) => {
+        state.statusStarUp = "succeeded";
+      })
+      .addCase(starUpPokemon.rejected, (state) => {
+        state.statusStarUp = "failed";
+      });
   },
 });
 
