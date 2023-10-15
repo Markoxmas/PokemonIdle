@@ -35,11 +35,8 @@ function UpgradePage() {
             <div>You have {inventory.exp} exp</div>
           </div>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            {selectedPokemon.sacrifices.map((sacrificeSlot, i) => (
-              <SacrificeSlotPokemonCard
-                sacrificeSlot={sacrificeSlot}
-                slot={i}
-              />
+            {selectedPokemon.sacrifices.map((sacrificeSlot) => (
+              <SacrificeSlotPokemonCard sacrificeSlot={sacrificeSlot} />
             ))}
           </div>
           <UpgradeModal />

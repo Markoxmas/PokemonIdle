@@ -3,7 +3,7 @@ import Paper from "@mui/material/Paper";
 import { AVATAR } from "../../assets/avatars/index";
 import StarIcon from "@mui/icons-material/Star";
 import { Pokemon } from "./pokemonSlice";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppDispatch } from "../../app/hooks";
 import { toggleSacrifice } from "../upgrade/upgradeSlice";
 
 const renderStars = (amount: number) => {
@@ -27,7 +27,6 @@ export default function SacrificePokemonCard({
   pokemon: Pokemon;
 }) {
   const dispatch = useAppDispatch();
-  const { slot } = useAppSelector((state) => state.upgrade);
   return (
     <Box
       sx={{
@@ -43,7 +42,7 @@ export default function SacrificePokemonCard({
         elevation={3}
         sx={{ display: "inline-block", padding: "10px" }}
         onClick={() => {
-          dispatch(toggleSacrifice({ id: pokemon._id, slot }));
+          dispatch(toggleSacrifice(pokemon._id));
         }}
       >
         <div>

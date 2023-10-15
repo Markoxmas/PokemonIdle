@@ -25,17 +25,15 @@ const renderStars = (amount: number) => {
 
 function SacrificeSlotPokemonCard({
   sacrificeSlot,
-  slot,
 }: {
   sacrificeSlot: SacrificeSlot;
-  slot: number;
 }) {
   const dispatch = useAppDispatch();
   return (
     <Paper
       elevation={1}
       sx={{ display: "inline-block", padding: "5px", margin: "10px" }}
-      onClick={() => dispatch(openSacrificeModal({ sacrificeSlot, slot }))}
+      onClick={() => dispatch(openSacrificeModal(sacrificeSlot))}
     >
       <div>0/{sacrificeSlot.amount}</div>
       {sacrificeSlot.name ? (

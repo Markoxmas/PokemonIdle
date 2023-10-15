@@ -30,11 +30,13 @@ export const normalSummonPokemon = () => {
         name: chosenPokemon.name,
         stars: 3,
         amount: 1,
+        slot: 0,
       },
       {
         name: null,
         stars: 4,
         amount: 2,
+        slot: 1,
       },
     ],
   };

@@ -4,6 +4,7 @@ type SacrificeSlot = {
   name: string | null;
   stars: number;
   amount: number;
+  slot: number;
 };
 
 interface IPokemon extends Document {
