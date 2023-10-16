@@ -1,9 +1,12 @@
 import Button from "@mui/material/Button";
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import BattlePokemonCard from "./BattlePokemonCard";
 import EmptyBattleSlot from "./EmptyBattleSlot";
+import { openBattleModal } from "./battleSlice";
+import BattleModal from "./BattleModal";
 
 function BattlePage() {
+  const dispatch = useAppDispatch();
   const pokemon = useAppSelector((state) => state.pokemon.pokemon);
   const pokemonInBattle = pokemon
     .filter((p) => p.inBattle === 1)
@@ -29,12 +32,17 @@ function BattlePage() {
           )
         )}
       </div>
-      <Button variant="contained" style={{ marginTop: "20px" }}>
+      <Button
+        variant="contained"
+        style={{ marginTop: "20px" }}
+        onClick={() => dispatch(openBattleModal())}
+      >
         Modify
       </Button>
       <Button variant="contained" style={{ marginTop: "20px" }}>
         Claim drops
       </Button>
+      <BattleModal battleSlots={battleSlots} />
     </div>
   );
 }

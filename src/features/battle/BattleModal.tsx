@@ -1,20 +1,22 @@
-import * as React from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Typography from "@mui/material/Typography";
-import { closeSummonModal } from "./summonSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import SummonPokemonCard from "./SummonPokemonCard";
 import Button from "@mui/material/Button";
+import { Pokemon } from "../pokemon/pokemonSlice";
+import BattlePokemonCard from "./BattlePokemonCard";
+import EmptyBattleSlot from "./EmptyBattleSlot";
+import { closeBattleModal } from "./battleSlice";
+import Divider from "@mui/material/Divider";
 
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 800,
+  width: 1000,
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -22,19 +24,21 @@ const style = {
   textAlign: "center",
 };
 
-export default function SummonModal() {
+export default function SummonModal({
+  battleSlots,
+}: {
+  battleSlots: Pokemon[] | undefined[];
+}) {
   const dispatch = useAppDispatch();
-  const { openModal, summonedPokemon } = useAppSelector(
-    (state) => state.summon
-  );
-
+  const { openModal } = useAppSelector((state) => state.battle);
+  const { pokemon } = useAppSelector((state) => state.pokemon);
   return (
     <div>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         open={openModal}
-        onClose={() => dispatch(closeSummonModal())}
+        onClose={() => dispatch(closeBattleModal())}
         closeAfterTransition
         slots={{ backdrop: Backdrop }}
         slotProps={{
@@ -51,7 +55,7 @@ export default function SummonModal() {
               component="h2"
               style={{ marginBottom: "20px" }}
             >
-              Congratulations, you've summoned {summonedPokemon.length} Pokemon!
+              Choose Pokemon for battle!
             </Typography>
             <div
               style={{
@@ -60,16 +64,37 @@ export default function SummonModal() {
                 justifyContent: "center",
               }}
             >
-              {summonedPokemon.map((pokemon) => (
-                <SummonPokemonCard pokemon={pokemon} />
-              ))}
+              {battleSlots.map((pokemon) =>
+                pokemon ? (
+                  <BattlePokemonCard pokemon={pokemon} />
+                ) : (
+                  <EmptyBattleSlot />
+                )
+              )}
             </div>
+            <Divider sx={{ margin: "10px" }} />
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                height: "500px",
+                overflow: "auto",
+              }}
+            >
+              {pokemon
+                .filter((p) => p.inBattle === 0)
+                .sort((a, b) => b.cp - a.cp)
+                .map((p) => (
+                  <BattlePokemonCard pokemon={p} />
+                ))}
+            </div>
+
             <Button
               variant="outlined"
               style={{ marginTop: "20px" }}
-              onClick={() => dispatch(closeSummonModal())}
+              onClick={() => dispatch(closeBattleModal())}
             >
-              Close
+              Choose
             </Button>
           </Box>
         </Fade>

@@ -2,8 +2,8 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import { AVATAR } from "../../assets/avatars/index";
 import StarIcon from "@mui/icons-material/Star";
-import { Pokemon } from "../pokemon/pokemonSlice";
-import { useAppDispatch } from "../../app/hooks";
+import { Pokemon, setBattleSlot } from "../pokemon/pokemonSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { setTab, Tab } from "../navigation/navigationSlice";
 import { initUpgradePage } from "../upgrade/upgradeSlice";
 
@@ -24,6 +24,7 @@ const renderStars = (amount: number) => {
 
 export default function BattlePokemonCard({ pokemon }: { pokemon: Pokemon }) {
   const dispatch = useAppDispatch();
+  const { openModal } = useAppSelector((state) => state.battle);
   return (
     <Box
       sx={{
@@ -39,8 +40,12 @@ export default function BattlePokemonCard({ pokemon }: { pokemon: Pokemon }) {
         elevation={3}
         sx={{ display: "inline-block", padding: "10px" }}
         onClick={() => {
-          dispatch(initUpgradePage(pokemon));
-          dispatch(setTab(Tab.Upgrade));
+          if (!openModal) {
+            dispatch(initUpgradePage(pokemon));
+            dispatch(setTab(Tab.Upgrade));
+          } else {
+            dispatch(setBattleSlot({ pokemon, battle: 1 }));
+          }
         }}
       >
         <div>

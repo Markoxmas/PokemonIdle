@@ -36,7 +36,7 @@ export const summonSlice = createSlice({
   name: "summon",
   initialState,
   reducers: {
-    closeModal: (state) => {
+    closeSummonModal: (state) => {
       state.openModal = false;
     },
   },
@@ -59,6 +59,6 @@ export const summonSlice = createSlice({
   },
 });
 
-export const { closeModal } = summonSlice.actions;
+export const { closeSummonModal } = summonSlice.actions;
 
 export default summonSlice.reducer;
