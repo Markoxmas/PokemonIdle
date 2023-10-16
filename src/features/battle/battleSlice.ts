@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Pokemon } from "../pokemon/pokemonSlice";
+import { initializeApp } from "../init/initSlice";
 
 type Checkpoint = {
   startTime: number;
@@ -40,6 +41,11 @@ export const summonSlice = createSlice({
     closeBattleModal: (state) => {
       state.openModal = false;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(initializeApp.fulfilled, (state, action) => {
+      state.battleTimeline = action.payload.battleTimeline;
+    });
   },
 });
 

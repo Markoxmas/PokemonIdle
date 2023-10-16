@@ -1,14 +1,14 @@
 import express from "express";
 import {
-  updateTimelineController,
-  createTimelineController,
-  deleteTimelineController,
+  updateBattleTimelineController,
+  createBattleTimelineController,
+  deleteBattleTimelineController,
 } from "../controllers/battleController";
 
 const router = express.Router();
 
-router.patch("/updatetimeline/:user", updateTimelineController);
-router.post("/createtimeline/:user", createTimelineController);
-router.delete("/deletetimeline/:user", deleteTimelineController);
+router.patch("/updatetimeline/:user", updateBattleTimelineController);
+router.post("/createtimeline/:user", createBattleTimelineController);
+router.delete("/deletetimeline/:user", deleteBattleTimelineController);
 
 export default router;

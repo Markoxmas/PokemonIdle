@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import Pokemon from "../models/Pokemon";
-import Timeline from "../models/Timeline";
+import BattleTimeline from "../models/BattleTimeline";
 
-export const updateTimelineController = async (
+export const updateBattleTimelineController = async (
   req: Request,
   res: Response
 ): Promise<void> => {
@@ -10,10 +10,10 @@ export const updateTimelineController = async (
     const { user } = req.params;
     const { checkpointPokemons } = req.body;
 
-    const timeline = await Timeline.findOne({ user });
+    const battleTimeline = await BattleTimeline.findOne({ user });
 
-    if (!timeline) {
-      res.status(404).json({ message: "Timeline not found" });
+    if (!battleTimeline) {
+      res.status(404).json({ message: "Battle timeline not found" });
       return;
     }
 
@@ -28,68 +28,68 @@ export const updateTimelineController = async (
       return;
     }
 
-    //If timeline hasn't started, start it
-    if (timeline?.checkpoints.length === 0) {
+    //If battle timeline hasn't started, start it
+    if (battleTimeline?.checkpoints.length === 0) {
       const time = Date.now();
-      timeline.startTime = time;
-      timeline.checkpoints.push({
+      battleTimeline.startTime = time;
+      battleTimeline.checkpoints.push({
         startTime: time,
         pokemon: checkpointPokemons,
       });
-    } else if (timeline?.checkpoints.length > 0) {
+    } else if (battleTimeline?.checkpoints.length > 0) {
       const time = Date.now();
-      timeline.checkpoints.push({
+      battleTimeline.checkpoints.push({
         startTime: time,
         pokemon: checkpointPokemons,
       });
     }
 
-    await timeline.save();
+    await battleTimeline.save();
 
-    //Return the timeline to the user
-    res.json({ timeline });
+    //Return the battle timeline to the user
+    res.json({ battleTimeline });
   } catch (error) {
-    res.status(500).json({ message: "Failed to update timeline" });
+    res.status(500).json({ message: "Failed to update battle timeline" });
   }
 };
 
-export const createTimelineController = async (
+export const createBattleTimelineController = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
     const { user } = req.params;
 
-    const timeline = await Timeline.findOne({ user });
+    const battleTimeline = await BattleTimeline.findOne({ user });
 
-    if (timeline) {
-      res.status(400).json({ message: "Timeline already exists" });
+    if (battleTimeline) {
+      res.status(400).json({ message: "Battle timeline already exists" });
       return;
     }
 
-    const newTimeline = new Timeline({
+    const newBattleTimeline = new BattleTimeline({
       user,
     });
 
-    await newTimeline.save();
+    await newBattleTimeline.save();
 
-    res.json({ timeline: newTimeline });
+    res.json({ battleTimeline: newBattleTimeline });
   } catch (error) {
-    res.status(500).json({ message: "Failed to create timeline" });
+    res.status(500).json({ message: "Failed to create battle timeline" });
   }
 };
 
-export const deleteTimelineController = async (
+export const deleteBattleTimelineController = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
     const { user } = req.params;
 
-    await Timeline.deleteOne({ user });
+    await BattleTimeline.deleteOne({ user });
 
-    res.json({ message: "Timeline deleted" });
+    res.json({ message: "Battle timeline deleted" });
   } catch (error) {
-    res.status(500).json({ message: "Failed to delete timeline" });
+    res.status(500).json({ message: "Failed to delete battle timeline" });
   }
 };
