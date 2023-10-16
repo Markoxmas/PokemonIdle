@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import PokemonModel from "../models/Pokemon";
 import Inventory from "../models/Inventory";
-import Timeline from "../models/BattleTimeline";
+import BattleTimeline from "../models/BattleTimeline";
 
 export const initAppController = async (
   req: Request,
@@ -14,10 +14,10 @@ export const initAppController = async (
 
     const inventory = await Inventory.findOne({ user });
 
-    const timeline = await Timeline.findOne({ user });
+    const battleTimeline = await BattleTimeline.findOne({ user });
 
     if (pokemon && inventory) {
-      res.status(200).json({ pokemon, inventory, timeline });
+      res.status(200).json({ pokemon, inventory, battleTimeline });
     } else {
       res.status(404).json({ message: "User not found or no data available" });
     }

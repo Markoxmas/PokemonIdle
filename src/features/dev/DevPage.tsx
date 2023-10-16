@@ -9,6 +9,8 @@ import {
   createInventory,
   addNormalSummonScrolls,
   addExp,
+  createBattleTimeline,
+  deleteBattleTimeline,
 } from "./devSlice";
 
 export default function DevPage() {
@@ -81,6 +83,24 @@ export default function DevPage() {
           onClick={() => dispatch(addExp(10000))}
         >
           Add 10000 exp
+        </Button>
+      </ButtonGroup>
+      <ButtonGroup
+        orientation="vertical"
+        aria-label="vertical contained button group"
+        variant="contained"
+      >
+        <Button
+          key="create-battle-timeline"
+          onClick={() => dispatch(createBattleTimeline())}
+        >
+          Create battle timeline
+        </Button>
+        <Button
+          key="delete-battle-timeline"
+          onClick={() => dispatch(deleteBattleTimeline())}
+        >
+          Delete battle timeline
         </Button>
       </ButtonGroup>
     </Box>

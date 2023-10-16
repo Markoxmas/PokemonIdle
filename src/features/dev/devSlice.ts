@@ -93,6 +93,34 @@ export const addExp = createAsyncThunk("dev/addExp", async (amount: number) => {
   return data;
 });
 
+export const createBattleTimeline = createAsyncThunk(
+  "dev/createBattleTimeline",
+  async () => {
+    const response = await fetch(
+      `http://localhost:3001/battle/create-battle-timeline/admin`,
+      {
+        method: "POST",
+      }
+    );
+    const data = await response.json();
+    return data;
+  }
+);
+
+export const deleteBattleTimeline = createAsyncThunk(
+  "dev/deleteBattleTimeline",
+  async () => {
+    const response = await fetch(
+      `http://localhost:3001/battle/delete-battle-timeline/admin`,
+      {
+        method: "DELETE",
+      }
+    );
+    const data = await response.json();
+    return data;
+  }
+);
+
 export const devSlice = createSlice({
   name: "dev",
   initialState,
@@ -168,6 +196,30 @@ export const devSlice = createSlice({
         state.success = action.payload.message;
       })
       .addCase(addExp.rejected, (state, action) => {
+        state.status = RequestStatus.Failure;
+        state.success = null;
+      })
+      .addCase(createBattleTimeline.pending, (state) => {
+        state.status = RequestStatus.Pending;
+        state.success = null;
+      })
+      .addCase(createBattleTimeline.fulfilled, (state, action) => {
+        state.status = RequestStatus.Success;
+        state.success = action.payload.message;
+      })
+      .addCase(createBattleTimeline.rejected, (state, action) => {
+        state.status = RequestStatus.Failure;
+        state.success = null;
+      })
+      .addCase(deleteBattleTimeline.pending, (state) => {
+        state.status = RequestStatus.Pending;
+        state.success = null;
+      })
+      .addCase(deleteBattleTimeline.fulfilled, (state, action) => {
+        state.status = RequestStatus.Success;
+        state.success = action.payload.message;
+      })
+      .addCase(deleteBattleTimeline.rejected, (state, action) => {
         state.status = RequestStatus.Failure;
         state.success = null;
       });

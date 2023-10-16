@@ -7,8 +7,8 @@ import {
 
 const router = express.Router();
 
-router.patch("/updatetimeline/:user", updateBattleTimelineController);
-router.post("/createtimeline/:user", createBattleTimelineController);
-router.delete("/deletetimeline/:user", deleteBattleTimelineController);
+router.patch("/update-battle-timeline/:user", updateBattleTimelineController);
+router.post("/create-battle-timeline/:user", createBattleTimelineController);
+router.delete("/delete-battle-timeline/:user", deleteBattleTimelineController);
 
 export default router;
