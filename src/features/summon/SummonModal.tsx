@@ -6,7 +6,7 @@ import Fade from "@mui/material/Fade";
 import Typography from "@mui/material/Typography";
 import { closeModal } from "./summonSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import SummonPokemonCard from "../pokemon/SummonPokemonCard";
+import SummonPokemonCard from "./SummonPokemonCard";
 import Button from "@mui/material/Button";
 
 const style = {

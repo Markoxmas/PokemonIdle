@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import { AVATAR } from "../../assets/avatars/index";
 import StarIcon from "@mui/icons-material/Star";
-import { Pokemon } from "./pokemonSlice";
+import { Pokemon } from "../pokemon/pokemonSlice";
 
 const renderStars = (amount: number) => {
   const stars = [];

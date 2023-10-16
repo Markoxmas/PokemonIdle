@@ -39,6 +39,8 @@ export const normalSummonPokemon = () => {
         slot: 1,
       },
     ],
+    inBattle: 0,
+    battleSlot: 0,
   };
 
   pokemon.cp = calculateCp(pokemon);

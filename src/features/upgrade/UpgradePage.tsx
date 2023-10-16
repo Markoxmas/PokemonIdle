@@ -1,8 +1,8 @@
 import Button from "@mui/material/Button";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { levelUpPokemon, starUpPokemon } from "./upgradeSlice";
-import UpgradePokemonCard from "../pokemon/UpgradePokemonCard";
-import SacrificeSlotPokemonCard from "../pokemon/SacrificeSlotPokemonCard";
+import UpgradePokemonCard from "./UpgradePokemonCard";
+import SacrificeSlotPokemonCard from "./SacrificeSlotPokemonCard";
 import UpgradeModal from "./UpgradeModal";
 import { Pokemon } from "../pokemon/pokemonSlice";
 

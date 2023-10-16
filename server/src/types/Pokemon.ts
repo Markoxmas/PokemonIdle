@@ -4,4 +4,6 @@ export type Pokemon = {
   level: number;
   stars: number;
   cp: number;
+  inBattle: number;
+  battleSlot: number;
 };

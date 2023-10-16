@@ -2,9 +2,9 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import { AVATAR } from "../../assets/avatars/index";
 import StarIcon from "@mui/icons-material/Star";
-import { Pokemon } from "./pokemonSlice";
+import { Pokemon } from "../pokemon/pokemonSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { toggleSacrifice } from "../upgrade/upgradeSlice";
+import { toggleSacrifice } from "./upgradeSlice";
 import { useState, useEffect } from "react";
 
 const renderStars = (amount: number) => {

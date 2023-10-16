@@ -14,6 +14,8 @@ interface IPokemon extends Document {
   stars: number;
   cp: number;
   sacrifices: SacrificeSlot[];
+  inBattle: number;
+  battleSlot: number;
 }
 
 const PokemonSchema: Schema = new Schema({
@@ -23,6 +25,8 @@ const PokemonSchema: Schema = new Schema({
   stars: { type: Number, required: true },
   cp: { type: Number, required: true },
   sacrifices: { type: Array, required: true },
+  inBattle: { type: Number, required: true },
+  battleSlot: { type: Number, required: true },
 });
 
 const PokemonModel = mongoose.model<IPokemon>("Pokemon", PokemonSchema);

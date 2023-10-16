@@ -13,7 +13,7 @@ export interface NavigationState {
 }
 
 const initialState: NavigationState = {
-  tab: Tab.Pokemon,
+  tab: Tab.Battle,
 };
 
 export const navigationSlice = createSlice({

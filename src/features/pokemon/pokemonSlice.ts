@@ -11,6 +11,8 @@ export type Pokemon = {
   stars: number;
   cp: number;
   sacrifices: SacrificeSlot[];
+  inBattle: number;
+  battleSlot: number;
 };
 
 export interface PokemonState {

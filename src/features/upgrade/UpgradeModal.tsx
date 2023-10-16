@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import { closeSacrificeModal } from "./upgradeSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import Button from "@mui/material/Button";
-import SacrificePokemonCard from "../pokemon/SacrificePokemonCard";
+import SacrificePokemonCard from "./SacrificePokemonCard";
 
 const style = {
   position: "absolute" as "absolute",

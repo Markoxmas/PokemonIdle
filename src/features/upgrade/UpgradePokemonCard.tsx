@@ -1,4 +1,4 @@
-import { Pokemon } from "./pokemonSlice";
+import { Pokemon } from "../pokemon/pokemonSlice";
 import StarIcon from "@mui/icons-material/Star";
 import { AVATAR } from "../../assets/avatars/index";
 
