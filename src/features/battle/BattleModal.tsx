@@ -8,7 +8,7 @@ import Button from "@mui/material/Button";
 import { Pokemon } from "../pokemon/pokemonSlice";
 import BattlePokemonCard from "./BattlePokemonCard";
 import EmptyBattleSlot from "./EmptyBattleSlot";
-import { closeBattleModal } from "./battleSlice";
+import { closeBattleModal, updateBattleTimeline } from "./battleSlice";
 import Divider from "@mui/material/Divider";
 
 const style = {
@@ -38,7 +38,12 @@ export default function SummonModal({
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         open={openModal}
-        onClose={() => dispatch(closeBattleModal())}
+        onClose={() => {
+          dispatch(
+            updateBattleTimeline(pokemon.filter((p) => p.inBattle === 1))
+          );
+          dispatch(closeBattleModal());
+        }}
         closeAfterTransition
         slots={{ backdrop: Backdrop }}
         slotProps={{
@@ -92,7 +97,12 @@ export default function SummonModal({
             <Button
               variant="outlined"
               style={{ marginTop: "20px" }}
-              onClick={() => dispatch(closeBattleModal())}
+              onClick={() => {
+                dispatch(
+                  updateBattleTimeline(pokemon.filter((p) => p.inBattle === 1))
+                );
+                dispatch(closeBattleModal());
+              }}
             >
               Choose
             </Button>

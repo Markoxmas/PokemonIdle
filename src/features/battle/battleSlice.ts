@@ -31,6 +31,24 @@ const initialState: BattleState = {
   openModal: false,
 };
 
+export const updateBattleTimeline = createAsyncThunk(
+  "battle/updateBattleTimeline",
+  async (checkpointPokemons: Pokemon[]) => {
+    const response = await fetch(
+      `http://localhost:3001/battle/update-battle-timeline/admin`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ checkpointPokemons }),
+      }
+    );
+    const data = await response.json();
+    return data;
+  }
+);
+
 export const summonSlice = createSlice({
   name: "summon",
   initialState,
@@ -46,6 +64,17 @@ export const summonSlice = createSlice({
     builder.addCase(initializeApp.fulfilled, (state, action) => {
       state.battleTimeline = action.payload.battleTimeline;
     });
+    builder
+      .addCase(updateBattleTimeline.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(updateBattleTimeline.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.battleTimeline = action.payload.battleTimeline;
+      })
+      .addCase(updateBattleTimeline.rejected, (state) => {
+        state.status = "failed";
+      });
   },
 });
 
