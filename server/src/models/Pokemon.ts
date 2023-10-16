@@ -7,7 +7,7 @@ type SacrificeSlot = {
   slot: number;
 };
 
-interface IPokemon extends Document {
+export interface IPokemon extends Document {
   user: string;
   name: string;
   level: number;

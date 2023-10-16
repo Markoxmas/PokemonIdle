@@ -4,6 +4,7 @@ import pokemonRoutes from "./routes/pokemonRoutes";
 import inventoryRoutes from "./routes/inventoryRoutes";
 import initAppRoutes from "./routes/initAppRoutes";
 import upgradeRoutes from "./routes/upgradeRoutes";
+import battleRoutes from "./routes/battleRoutes";
 import mongoose from "mongoose";
 const cors = require("cors");
 
@@ -30,6 +31,7 @@ app.use("/pokemon", pokemonRoutes);
 app.use("/inventory", inventoryRoutes);
 app.use("/init", initAppRoutes);
 app.use("/upgrade", upgradeRoutes);
+app.use("/battle", battleRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
