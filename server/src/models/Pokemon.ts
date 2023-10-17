@@ -18,7 +18,7 @@ export interface IPokemon extends Document {
   battleSlot: number;
 }
 
-const PokemonSchema: Schema = new Schema({
+export const PokemonSchema: Schema = new Schema({
   user: { type: String, required: true },
   name: { type: String, required: true },
   level: { type: Number, required: true },

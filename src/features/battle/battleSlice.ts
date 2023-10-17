@@ -11,6 +11,7 @@ type BattleTimeline = {
   user: string;
   startTime: number;
   startHp: number;
+  maxHp: number;
   checkpoints: Checkpoint[];
 };
 
@@ -25,6 +26,7 @@ const initialState: BattleState = {
     user: "admin",
     startTime: -1,
     startHp: 10000,
+    maxHp: 10000,
     checkpoints: [],
   },
   status: "idle",
