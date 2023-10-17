@@ -7,7 +7,7 @@ type Checkpoint = {
   pokemon: Pokemon[];
 };
 
-type BattleTimeline = {
+export type BattleTimeline = {
   user: string;
   startTime: number;
   startHp: number;
