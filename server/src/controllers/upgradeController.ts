@@ -30,7 +30,6 @@ export const levelUpController = async (
       if (exp.amount >= 1000) {
         pokemon.level++;
         pokemon.cp = calculateCp(pokemon);
-        console.log(pokemon);
 
         inventory.items = inventory.items.map((item) =>
           item.name === "exp" ? { ...item, amount: item.amount - 1000 } : item

@@ -13,7 +13,7 @@ export default function BasicCard() {
   const normalSummonScrolls = items.find(
     (item) => item.name === "normalSummonScroll"
   );
-  console.log(normalSummonScrolls);
+
   return (
     <Box
       sx={{
