@@ -1,15 +1,24 @@
 import mongoose, { Document, Schema } from "mongoose";
 
+export interface Item {
+  name: string;
+  image: string;
+  amount: number;
+}
+
 export interface InventoryDocument extends Document {
   user: string;
-  normalSummonScrolls: number;
-  exp: number;
+  items: Item[];
 }
+
+const itemSchema = new Schema<Item>({
+  name: { type: String, required: true },
+  amount: { type: Number, required: true, default: 1 },
+});
 
 const inventorySchema = new Schema<InventoryDocument>({
   user: { type: String, required: true },
-  normalSummonScrolls: { type: Number, required: true, default: 0 },
-  exp: { type: Number, required: true, default: 0 },
+  items: [itemSchema],
 });
 
 const Inventory = mongoose.model<InventoryDocument>(

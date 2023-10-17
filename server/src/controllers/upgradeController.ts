@@ -25,21 +25,29 @@ export const levelUpController = async (
       return;
     }
 
-    if (inventory.exp >= 1000) {
-      pokemon.level++;
-      pokemon.cp = calculateCp(pokemon);
+    const exp = inventory.items.find((item) => item.name === "exp");
+    if (exp) {
+      if (exp.amount >= 1000) {
+        pokemon.level++;
+        pokemon.cp = calculateCp(pokemon);
+        console.log(pokemon);
 
-      inventory.exp -= 1000;
+        inventory.items = inventory.items.map((item) =>
+          item.name === "exp" ? { ...item, amount: item.amount - 1000 } : item
+        );
 
-      await pokemon.save();
-      await inventory.save();
+        await pokemon.save();
+        await inventory.save();
 
-      res.json({
-        pokemon: pokemon,
-        newExp: inventory.exp,
-      });
+        res.json({
+          pokemon: pokemon,
+          exp: inventory.items.find((item) => item.name === "exp"),
+        });
+      } else {
+        res.status(400).json({ message: "Not enough exp to level up" });
+      }
     } else {
-      res.status(400).json({ message: "Not enough exp to level up" });
+      res.status(400).json({ message: "Exp item isn't found in inventory" });
     }
   } catch (error) {
     res.status(500).json({ message: "Failed to level up Pokemon" });

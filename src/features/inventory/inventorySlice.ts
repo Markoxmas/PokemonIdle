@@ -4,14 +4,20 @@ import { initializeApp } from "../init/initSlice";
 import { levelUpPokemon } from "../upgrade/upgradeSlice";
 import { claimDrops } from "../battle/battleSlice";
 
+export type Item = {
+  name: string;
+  image: string;
+  amount: number;
+};
+
 export interface InventoryState {
-  normalSummonScrolls: number;
-  exp: number;
+  user: string;
+  items: any[];
 }
 
 const initialState: InventoryState = {
-  normalSummonScrolls: 0,
-  exp: 0,
+  user: "admin",
+  items: [],
 };
 
 export const inventorySlice = createSlice({
@@ -21,20 +27,27 @@ export const inventorySlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(normalSummonPokemon.fulfilled, (state, action) => {
-        state.normalSummonScrolls -= action.payload.normalSummonScrollsAmount;
+        state.items = state.items.map((item) =>
+          item.name === "normalSummonScroll"
+            ? {
+                ...item,
+                amount: item.amount - action.payload.normalSummonScrollsAmount,
+              }
+            : item
+        );
       })
       .addCase(initializeApp.fulfilled, (state, action) => {
-        state.normalSummonScrolls =
-          action.payload.inventory.normalSummonScrolls;
-        state.exp = action.payload.inventory.exp;
+        state.items = action.payload.inventory.items;
       })
       .addCase(levelUpPokemon.fulfilled, (state, action) => {
-        state.exp = action.payload.newExp;
+        state.items = state.items.map((item) =>
+          item.name === "exp"
+            ? { ...item, amount: action.payload.exp.amount }
+            : item
+        );
       })
       .addCase(claimDrops.fulfilled, (state, action) => {
-        state.exp = action.payload.inventory.exp;
-        state.normalSummonScrolls =
-          action.payload.inventory.normalSummonScrolls;
+        state.items = action.payload.inventory.items;
       });
   },
 });

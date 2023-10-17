@@ -27,6 +27,7 @@ function UpgradePage() {
   const sacrificesFulfilled = selectedPokemon
     ? areSacrificesFulfilled(selectedPokemon, sacrifices)
     : false;
+  const exp = inventory.items.find((item) => item.name === "exp");
 
   return (
     <div
@@ -41,12 +42,12 @@ function UpgradePage() {
           <div style={{ margin: "20px" }}>
             <Button
               variant="contained"
-              disabled={inventory.exp < 1000}
+              disabled={exp.amount < 1000}
               onClick={() => dispatch(levelUpPokemon(selectedPokemon._id))}
             >
               Level up (1000 exp)
             </Button>
-            <div>You have {inventory.exp} exp</div>
+            <div>You have {exp.amount} exp</div>
           </div>
           <div style={{ display: "flex", justifyContent: "center" }}>
             {selectedPokemon.sacrifices.map((sacrificeSlot) => (

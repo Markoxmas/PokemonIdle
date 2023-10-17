@@ -140,7 +140,7 @@ export const claimDropsController = async (
     const dropTable = getDropTable();
     const drops = {
       exp: Math.floor(dropTable.exp * damageDone),
-      normalSummonScrolls: dropTable.normalSummonScrolls * kills,
+      normalSummonScroll: dropTable.normalSummonScroll * kills,
     };
 
     //Add the drops to the inventory
@@ -151,8 +151,32 @@ export const claimDropsController = async (
       return;
     }
 
-    inventory.exp += drops.exp;
-    inventory.normalSummonScrolls += drops.normalSummonScrolls;
+    //Add exp to inventory
+    const exp = inventory.items.find(
+      (inventoryItem) => inventoryItem.name === "exp"
+    );
+    if (exp) {
+      exp.amount += drops.exp;
+    } else {
+      inventory.items.push({
+        name: "exp",
+        image: "exp",
+        amount: drops.exp,
+      });
+    }
+    const normalSummonScrolls = inventory.items.find(
+      (inventoryItem) => inventoryItem.name === "normalSummonScroll"
+    );
+    if (normalSummonScrolls) {
+      normalSummonScrolls.amount += drops.normalSummonScroll;
+    } else {
+      inventory.items.push({
+        name: "normalSummonScroll",
+        image: "normalSummonScroll",
+        amount: drops.normalSummonScroll,
+      });
+    }
+
     await inventory.save();
 
     //Reset the battle timeline
@@ -163,7 +187,7 @@ export const claimDropsController = async (
     battleTimeline.checkpoints = [{ ...lastCheckpoint, startTime: time }];
 
     await battleTimeline.save();
-
+    console.log(drops, inventory);
     res.json({
       drops,
       battleTimeline,

@@ -38,6 +38,18 @@ export const createInventoryController = async (
     }
 
     const newInventory = new Inventory({ user });
+    newInventory.items = [
+      {
+        name: "exp",
+        image: "exp",
+        amount: 0,
+      },
+      {
+        name: "normalSummonScroll",
+        image: "normalSummonScroll",
+        amount: 0,
+      },
+    ];
 
     await newInventory.save();
 
@@ -88,18 +100,13 @@ export const deleteUsersInventoryController = async (
   }
 };
 
-export const addNormalSummonScrollsController = async (
+export const addItemToInventoryController = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
-    const user = req.params.user;
-    const amount = parseInt(req.params.amount, 10);
-
-    if (isNaN(amount) || amount <= 0) {
-      res.status(400).json({ message: "Invalid 'amount' parameter" });
-      return;
-    }
+    const { user } = req.params;
+    const { item } = req.body;
 
     const inventory = await Inventory.findOne({ user });
 
@@ -108,50 +115,21 @@ export const addNormalSummonScrollsController = async (
       return;
     }
 
-    inventory.normalSummonScrolls += amount;
+    //Add item(s) to inventory
+    const existingItem = inventory.items.find(
+      (inventoryItem) => inventoryItem.name === item.name
+    );
+    if (existingItem) {
+      existingItem.amount += item.amount;
+    } else {
+      inventory.items.push(item);
+    }
 
     await inventory.save();
 
-    res.status(200).json({
-      message: `Added ${amount} normal summon scrolls to ${user}'s inventory`,
-      inventory,
-    });
+    res.json({ inventory });
   } catch (error) {
-    console.error("Error adding normal summon scrolls:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
-
-export const addExpController = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
-  try {
-    const user = req.params.user;
-    const amount = parseInt(req.params.amount, 10);
-
-    if (isNaN(amount) || amount <= 0) {
-      res.status(400).json({ message: "Invalid 'amount' parameter" });
-      return;
-    }
-
-    const inventory = await Inventory.findOne({ user });
-
-    if (!inventory) {
-      res.status(404).json({ message: "Inventory not found" });
-      return;
-    }
-
-    inventory.exp += amount;
-
-    await inventory.save();
-
-    res.status(200).json({
-      message: `Added ${amount} exp to ${user}'s inventory`,
-      inventory,
-    });
-  } catch (error) {
-    console.error("Error adding exp:", error);
+    console.error("Error adding item to inventory:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
