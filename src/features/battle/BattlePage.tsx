@@ -2,7 +2,7 @@ import Button from "@mui/material/Button";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import BattlePokemonCard from "./BattlePokemonCard";
 import EmptyBattleSlot from "./EmptyBattleSlot";
-import { openBattleModal } from "./battleSlice";
+import { openBattleModal, claimDrops } from "./battleSlice";
 import BattleModal from "./BattleModal";
 
 function BattlePage() {
@@ -39,7 +39,11 @@ function BattlePage() {
       >
         Modify
       </Button>
-      <Button variant="contained" style={{ marginTop: "20px" }}>
+      <Button
+        variant="contained"
+        style={{ marginTop: "20px" }}
+        onClick={() => dispatch(claimDrops())}
+      >
         Claim drops
       </Button>
       <BattleModal battleSlots={battleSlots} />

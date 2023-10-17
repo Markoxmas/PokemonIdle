@@ -19,6 +19,7 @@ export interface BattleState {
   battleTimeline: BattleTimeline;
   status: "idle" | "loading" | "succeeded" | "failed";
   openModal: boolean;
+  drops: any;
 }
 
 const initialState: BattleState = {
@@ -31,6 +32,7 @@ const initialState: BattleState = {
   },
   status: "idle",
   openModal: false,
+  drops: {},
 };
 
 export const updateBattleTimeline = createAsyncThunk(
@@ -51,6 +53,14 @@ export const updateBattleTimeline = createAsyncThunk(
   }
 );
 
+export const claimDrops = createAsyncThunk("battle/claimDrops", async () => {
+  const response = await fetch(
+    `http://localhost:3001/battle/claim-drops/admin`
+  );
+  const data = await response.json();
+  return data;
+});
+
 export const summonSlice = createSlice({
   name: "summon",
   initialState,
@@ -63,10 +73,10 @@ export const summonSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(initializeApp.fulfilled, (state, action) => {
-      state.battleTimeline = action.payload.battleTimeline;
-    });
     builder
+      .addCase(initializeApp.fulfilled, (state, action) => {
+        state.battleTimeline = action.payload.battleTimeline;
+      })
       .addCase(updateBattleTimeline.pending, (state) => {
         state.status = "loading";
       })
@@ -75,6 +85,17 @@ export const summonSlice = createSlice({
         state.battleTimeline = action.payload.battleTimeline;
       })
       .addCase(updateBattleTimeline.rejected, (state) => {
+        state.status = "failed";
+      })
+      .addCase(claimDrops.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(claimDrops.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.battleTimeline = action.payload.battleTimeline;
+        state.drops = action.payload.drops;
+      })
+      .addCase(claimDrops.rejected, (state) => {
         state.status = "failed";
       });
   },

@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { normalSummonPokemon } from "../summon/summonSlice";
 import { initializeApp } from "../init/initSlice";
 import { levelUpPokemon } from "../upgrade/upgradeSlice";
+import { claimDrops } from "../battle/battleSlice";
 
 export interface InventoryState {
   normalSummonScrolls: number;
@@ -29,6 +30,11 @@ export const inventorySlice = createSlice({
       })
       .addCase(levelUpPokemon.fulfilled, (state, action) => {
         state.exp = action.payload.newExp;
+      })
+      .addCase(claimDrops.fulfilled, (state, action) => {
+        state.exp = action.payload.inventory.exp;
+        state.normalSummonScrolls =
+          action.payload.inventory.normalSummonScrolls;
       });
   },
 });
