@@ -30,23 +30,37 @@ export const updateBattleTimelineController = async (
       return;
     }
 
+    //Update battle slots on pokemon
+    existingCheckpointPokemons.forEach((pokemon) => {
+      const updatedPokemon = checkpointPokemons.find(
+        (checkpointPokemon: any) =>
+          checkpointPokemon._id === pokemon._id.toString()
+      );
+
+      pokemon.inBattle = updatedPokemon.inBattle;
+      pokemon.battleSlot = updatedPokemon.battleSlot;
+    });
+
     //If battle timeline hasn't started, start it
     if (battleTimeline?.checkpoints.length === 0) {
       const time = Date.now();
       battleTimeline.startTime = time;
       battleTimeline.checkpoints.push({
         startTime: time,
-        pokemon: checkpointPokemons,
+        pokemon: existingCheckpointPokemons,
       });
     } else if (battleTimeline?.checkpoints.length > 0) {
       const time = Date.now();
       battleTimeline.checkpoints.push({
         startTime: time,
-        pokemon: checkpointPokemons,
+        pokemon: existingCheckpointPokemons,
       });
     }
 
     await battleTimeline.save();
+    await Promise.all(
+      existingCheckpointPokemons.map((pokemon) => pokemon.save())
+    );
 
     //Return the battle timeline to the user
     res.json({ battleTimeline });
@@ -187,7 +201,7 @@ export const claimDropsController = async (
     battleTimeline.checkpoints = [{ ...lastCheckpoint, startTime: time }];
 
     await battleTimeline.save();
-    console.log(drops, inventory);
+
     res.json({
       drops,
       battleTimeline,
