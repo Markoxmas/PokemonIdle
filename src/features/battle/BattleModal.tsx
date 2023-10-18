@@ -30,14 +30,14 @@ export default function SummonModal({
   battleSlots: Pokemon[] | undefined[];
 }) {
   const dispatch = useAppDispatch();
-  const { openModal } = useAppSelector((state) => state.battle);
+  const { openBattleModal } = useAppSelector((state) => state.battle);
   const { pokemon } = useAppSelector((state) => state.pokemon);
   return (
     <div>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
-        open={openModal}
+        open={openBattleModal}
         onClose={() => {
           dispatch(
             updateBattleTimeline(pokemon.filter((p) => p.inBattle === 1))
@@ -52,7 +52,7 @@ export default function SummonModal({
           },
         }}
       >
-        <Fade in={openModal}>
+        <Fade in={openBattleModal}>
           <Box sx={style}>
             <Typography
               id="transition-modal-title"

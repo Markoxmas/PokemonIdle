@@ -24,7 +24,7 @@ const renderStars = (amount: number) => {
 
 export default function BattlePokemonCard({ pokemon }: { pokemon: Pokemon }) {
   const dispatch = useAppDispatch();
-  const { openModal } = useAppSelector((state) => state.battle);
+  const { openBattleModal } = useAppSelector((state) => state.battle);
   return (
     <Box
       sx={{
@@ -40,7 +40,7 @@ export default function BattlePokemonCard({ pokemon }: { pokemon: Pokemon }) {
         elevation={3}
         sx={{ display: "inline-block", padding: "10px" }}
         onClick={() => {
-          if (!openModal) {
+          if (!openBattleModal) {
             dispatch(initUpgradePage(pokemon));
             dispatch(setTab(Tab.Upgrade));
           } else {

@@ -5,6 +5,7 @@ import BattlePokemonCard from "./BattlePokemonCard";
 import EmptyBattleSlot from "./EmptyBattleSlot";
 import { openBattleModal, claimDrops } from "./battleSlice";
 import BattleModal from "./BattleModal";
+import DropsModal from "./DropsModal";
 import { getTimer } from "../../lib/getTimer";
 
 function BattlePage() {
@@ -61,6 +62,7 @@ function BattlePage() {
         Claim drops
       </Button>
       <BattleModal battleSlots={battleSlots} />
+      <DropsModal />
     </div>
   );
 }

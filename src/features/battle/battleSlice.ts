@@ -19,7 +19,8 @@ export type BattleTimeline = {
 export interface BattleState {
   battleTimeline: BattleTimeline;
   status: "idle" | "loading" | "succeeded" | "failed";
-  openModal: boolean;
+  openBattleModal: boolean;
+  openDropsModal: boolean;
   drops: Item[];
 }
 
@@ -32,7 +33,8 @@ const initialState: BattleState = {
     checkpoints: [],
   },
   status: "idle",
-  openModal: false,
+  openBattleModal: false,
+  openDropsModal: false,
   drops: [],
 };
 
@@ -67,10 +69,13 @@ export const summonSlice = createSlice({
   initialState,
   reducers: {
     openBattleModal: (state) => {
-      state.openModal = true;
+      state.openBattleModal = true;
     },
     closeBattleModal: (state) => {
-      state.openModal = false;
+      state.openBattleModal = false;
+    },
+    closeDropsModal: (state) => {
+      state.openDropsModal = false;
     },
   },
   extraReducers: (builder) => {
@@ -95,6 +100,7 @@ export const summonSlice = createSlice({
         state.status = "succeeded";
         state.battleTimeline = action.payload.battleTimeline;
         state.drops = action.payload.drops;
+        state.openDropsModal = true;
       })
       .addCase(claimDrops.rejected, (state) => {
         state.status = "failed";
@@ -102,6 +108,7 @@ export const summonSlice = createSlice({
   },
 });
 
-export const { openBattleModal, closeBattleModal } = summonSlice.actions;
+export const { openBattleModal, closeBattleModal, closeDropsModal } =
+  summonSlice.actions;
 
 export default summonSlice.reducer;
