@@ -152,10 +152,18 @@ export const claimDropsController = async (
 
     //Calculate the drops
     const dropTable = getDropTable();
-    const drops = {
-      exp: Math.floor(dropTable.exp * damageDone),
-      normalSummonScroll: dropTable.normalSummonScroll * kills,
-    };
+    const drops = [
+      {
+        name: "exp",
+        image: "exp",
+        amount: Math.floor(dropTable.exp * damageDone),
+      },
+      {
+        name: "normalSummonScroll",
+        image: "normalSummonScroll",
+        amount: dropTable.normalSummonScroll * kills,
+      },
+    ];
 
     //Add the drops to the inventory
     const inventory = await Inventory.findOne({ user });
@@ -170,24 +178,27 @@ export const claimDropsController = async (
       (inventoryItem) => inventoryItem.name === "exp"
     );
     if (exp) {
-      exp.amount += drops.exp;
+      exp.amount += drops.find((drop) => drop.name === "exp")?.amount || 0;
     } else {
       inventory.items.push({
         name: "exp",
         image: "exp",
-        amount: drops.exp,
+        amount: drops.find((drop) => drop.name === "exp")?.amount || 0,
       });
     }
+    //Add normal summon scrolls to inventory
     const normalSummonScrolls = inventory.items.find(
       (inventoryItem) => inventoryItem.name === "normalSummonScroll"
     );
     if (normalSummonScrolls) {
-      normalSummonScrolls.amount += drops.normalSummonScroll;
+      normalSummonScrolls.amount +=
+        drops.find((drop) => drop.name === "normalSummonScroll")?.amount || 0;
     } else {
       inventory.items.push({
         name: "normalSummonScroll",
         image: "normalSummonScroll",
-        amount: drops.normalSummonScroll,
+        amount:
+          drops.find((drop) => drop.name === "normalSummonScroll")?.amount || 0,
       });
     }
 

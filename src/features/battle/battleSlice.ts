@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Pokemon } from "../pokemon/pokemonSlice";
 import { initializeApp } from "../init/initSlice";
+import { Item } from "../inventory/inventorySlice";
 
 type Checkpoint = {
   startTime: number;
@@ -19,7 +20,7 @@ export interface BattleState {
   battleTimeline: BattleTimeline;
   status: "idle" | "loading" | "succeeded" | "failed";
   openModal: boolean;
-  drops: any;
+  drops: Item[];
 }
 
 const initialState: BattleState = {
@@ -32,7 +33,7 @@ const initialState: BattleState = {
   },
   status: "idle",
   openModal: false,
-  drops: {},
+  drops: [],
 };
 
 export const updateBattleTimeline = createAsyncThunk(
