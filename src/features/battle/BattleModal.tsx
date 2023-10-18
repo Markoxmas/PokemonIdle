@@ -8,7 +8,11 @@ import Button from "@mui/material/Button";
 import { Pokemon } from "../pokemon/pokemonSlice";
 import BattlePokemonCard from "./BattlePokemonCard";
 import EmptyBattleSlot from "./EmptyBattleSlot";
-import { closeBattleModal, updateBattleTimeline } from "./battleSlice";
+import {
+  claimDrops,
+  closeBattleModal,
+  updateBattleTimeline,
+} from "./battleSlice";
 import Divider from "@mui/material/Divider";
 
 const style = {
@@ -23,6 +27,10 @@ const style = {
   p: 4,
   textAlign: "center",
 };
+
+function areSlotsEmpty(battleSlots: (Pokemon | undefined)[]): boolean {
+  return battleSlots.every((battleSlot) => battleSlot === undefined);
+}
 
 export default function SummonModal({
   battleSlots,
@@ -93,19 +101,33 @@ export default function SummonModal({
                   <BattlePokemonCard pokemon={p} />
                 ))}
             </div>
-
-            <Button
-              variant="outlined"
-              style={{ marginTop: "20px" }}
-              onClick={() => {
-                dispatch(
-                  updateBattleTimeline(pokemon.filter((p) => p.inBattle === 1))
-                );
-                dispatch(closeBattleModal());
-              }}
-            >
-              Choose
-            </Button>
+            {areSlotsEmpty(battleSlots) ? (
+              <Button
+                variant="contained"
+                style={{ marginTop: "20px" }}
+                onClick={() => {
+                  dispatch(closeBattleModal());
+                  dispatch(claimDrops());
+                }}
+              >
+                Claim drops
+              </Button>
+            ) : (
+              <Button
+                variant="contained"
+                style={{ marginTop: "20px" }}
+                onClick={() => {
+                  dispatch(
+                    updateBattleTimeline(
+                      pokemon.filter((p) => p.inBattle === 1)
+                    )
+                  );
+                  dispatch(closeBattleModal());
+                }}
+              >
+                Choose
+              </Button>
+            )}
           </Box>
         </Fade>
       </Modal>
