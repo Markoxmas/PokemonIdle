@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import Pokemon from "../models/Pokemon";
 import BattleTimeline from "../models/BattleTimeline";
 import Inventory from "../models/Inventory";
-import { getDropTable } from "../lib/getDropTable";
+import { getBattleResults } from "../lib/getBattleResults";
 
 export const updateBattleTimelineController = async (
   req: Request,
@@ -124,46 +124,8 @@ export const claimDropsController = async (
       return;
     }
 
-    const checkpoints = battleTimeline.checkpoints;
-
-    //Calculate the damage done in the battle
-    const damageDone = checkpoints.reduce((totalDamage, checkpoint, i) => {
-      const time2 =
-        i !== checkpoints.length - 1
-          ? checkpoints[i + 1].startTime / 1000
-          : Date.now() / 1000;
-      const time1 = checkpoint.startTime / 1000;
-      const damage = checkpoint.pokemon.reduce(
-        (total, pokemon) => total + pokemon.cp,
-        0
-      );
-      return totalDamage + Math.floor(damage * (time2 - time1));
-    }, 0);
-
-    //Calculate the kills
-    const kills =
-      battleTimeline.startHp - damageDone > 0
-        ? 0
-        : Math.floor(
-            (damageDone - battleTimeline.startHp) / battleTimeline.maxHp + 1
-          );
-    battleTimeline.startHp =
-      battleTimeline.startHp - damageDone + kills * battleTimeline.maxHp;
-
-    //Calculate the drops
-    const dropTable = getDropTable();
-    const drops = [
-      {
-        name: "Exp",
-        image: "exp",
-        amount: Math.floor(dropTable.exp * damageDone),
-      },
-      {
-        name: "Normal Summon Scroll",
-        image: "normalSummonScroll",
-        amount: dropTable.normalSummonScroll * kills,
-      },
-    ];
+    //Get
+    const battleResults = getBattleResults(battleTimeline);
 
     //Add the drops to the inventory
     const inventory = await Inventory.findOne({ user });
@@ -178,12 +140,14 @@ export const claimDropsController = async (
       (inventoryItem) => inventoryItem.name === "exp"
     );
     if (exp) {
-      exp.amount += drops.find((drop) => drop.name === "exp")?.amount || 0;
+      exp.amount +=
+        battleResults.drops.find((drop) => drop.name === "exp")?.amount || 0;
     } else {
       inventory.items.push({
         name: "exp",
         image: "exp",
-        amount: drops.find((drop) => drop.name === "exp")?.amount || 0,
+        amount:
+          battleResults.drops.find((drop) => drop.name === "exp")?.amount || 0,
       });
     }
     //Add normal summon scrolls to inventory
@@ -192,14 +156,16 @@ export const claimDropsController = async (
     );
     if (normalSummonScrolls) {
       normalSummonScrolls.amount +=
-        drops.find((drop) => drop.name === "Normal Summon Scroll")?.amount || 0;
+        battleResults.drops.find((drop) => drop.name === "Normal Summon Scroll")
+          ?.amount || 0;
     } else {
       inventory.items.push({
         name: "Normal Summon Scroll",
         image: "normalSummonScroll",
         amount:
-          drops.find((drop) => drop.name === "Normal Summon Scroll")?.amount ||
-          0,
+          battleResults.drops.find(
+            (drop) => drop.name === "Normal Summon Scroll"
+          )?.amount || 0,
       });
     }
 
@@ -211,11 +177,12 @@ export const claimDropsController = async (
     const lastCheckpoint =
       battleTimeline.checkpoints[battleTimeline.checkpoints.length - 1];
     battleTimeline.checkpoints = [{ ...lastCheckpoint, startTime: time }];
+    battleTimeline.startHp = battleResults.startHp;
 
     await battleTimeline.save();
 
     res.json({
-      drops,
+      drops: battleResults.drops,
       battleTimeline,
       inventory,
     });
