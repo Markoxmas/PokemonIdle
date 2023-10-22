@@ -14,19 +14,7 @@ import {
   updateBattleTimeline,
 } from "./battleSlice";
 import Divider from "@mui/material/Divider";
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 1000,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-  textAlign: "center",
-};
+import { useMediaQuery } from "@mui/material";
 
 function areSlotsEmpty(battleSlots: (Pokemon | undefined)[]): boolean {
   return battleSlots.every((battleSlot) => battleSlot === undefined);
@@ -40,6 +28,19 @@ export default function SummonModal({
   const dispatch = useAppDispatch();
   const { openBattleModal } = useAppSelector((state) => state.battle);
   const { pokemon } = useAppSelector((state) => state.pokemon);
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
+  const style = {
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: isSmallScreen ? 500 : 1000,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+    textAlign: "center",
+  };
   return (
     <div>
       <Modal
@@ -90,7 +91,8 @@ export default function SummonModal({
               style={{
                 display: "flex",
                 flexWrap: "wrap",
-                height: "500px",
+                justifyContent: "center",
+                maxHeight: "500px",
                 overflow: "auto",
               }}
             >
