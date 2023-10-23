@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document, ObjectId, Schema } from "mongoose";
 
 type SacrificeSlot = {
   name: string | null;
@@ -7,7 +7,8 @@ type SacrificeSlot = {
   slot: number;
 };
 
-export interface IPokemon extends Document {
+export interface Pokemon extends Document {
+  _id: ObjectId;
   user: string;
   name: string;
   level: number;
@@ -19,6 +20,7 @@ export interface IPokemon extends Document {
 }
 
 export const PokemonSchema: Schema = new Schema({
+  _id: { type: Schema.Types.ObjectId, required: true },
   user: { type: String, required: true },
   name: { type: String, required: true },
   level: { type: Number, required: true },
@@ -29,6 +31,6 @@ export const PokemonSchema: Schema = new Schema({
   battleSlot: { type: Number, required: true },
 });
 
-const PokemonModel = mongoose.model<IPokemon>("Pokemon", PokemonSchema);
+const PokemonModel = mongoose.model<Pokemon>("Pokemon", PokemonSchema);
 
 export default PokemonModel;

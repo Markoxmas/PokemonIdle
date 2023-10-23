@@ -3,7 +3,7 @@ import PokemonModel from "../models/Pokemon";
 import { normalSummonPokemon } from "../lib/normalSummonPokemon";
 import Inventory from "../models/Inventory";
 import { removeItemFromInventory } from "../lib/removeItemFromInventory";
-import { ItemKind } from "../types/ItemKind";
+import { ItemKind } from "../models/Inventory";
 import { createItem } from "../lib/createItem";
 
 export const normalSummonController = async (

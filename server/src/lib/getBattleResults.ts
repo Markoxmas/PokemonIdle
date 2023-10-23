@@ -1,4 +1,4 @@
-import { BattleTimeline } from "../types/BattleTimeline";
+import { BattleTimeline } from "../models/BattleTimeline";
 import { getBattleDamage } from "./getBattleDamage";
 import { getBattleDrops } from "./getBattleDrops";
 import { getBattleKills } from "./getBattleKills";

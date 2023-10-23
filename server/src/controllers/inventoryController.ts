@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import Inventory from "../models/Inventory";
-import { ItemKind } from "../types/ItemKind";
+import { ItemKind } from "../models/Inventory";
 import { createItem } from "../lib/createItem";
 import { addItemToInventory } from "../lib/addItemToInventory";
 

@@ -1,4 +1,4 @@
-import { BattleTimeline } from "../types/BattleTimeline";
+import { BattleTimeline } from "../models/BattleTimeline";
 
 export const getBattleKills = (
   battleTimeline: BattleTimeline,

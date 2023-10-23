@@ -1,10 +1,7 @@
-import { InventoryDocument } from "../models/Inventory";
-import { Item } from "../types/Item";
+import { Inventory } from "../models/Inventory";
+import { Item } from "../models/Inventory";
 
-export const addItemToInventory = (
-  inventory: InventoryDocument,
-  item: Item
-) => {
+export const addItemToInventory = (inventory: Inventory, item: Item) => {
   if (item.stackable) {
     const itemInInventory = inventory.items.find(
       (inventoryItem) => inventoryItem.type === item.type

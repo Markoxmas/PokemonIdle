@@ -1,4 +1,4 @@
-import { ItemKind } from "../types/ItemKind";
+import { ItemKind } from "../models/Inventory";
 
 export const createItem = (kind: ItemKind, amount = 0) => {
   switch (kind) {

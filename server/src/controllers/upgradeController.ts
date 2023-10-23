@@ -2,8 +2,8 @@ import { Request, Response } from "express";
 import PokemonModel from "../models/Pokemon";
 import Inventory from "../models/Inventory";
 import calculateCp from "../lib/calculateCp";
-import { Pokemon } from "../types/Pokemon";
-import { ItemKind } from "../types/ItemKind";
+import { Pokemon } from "../models/Pokemon";
+import { ItemKind } from "../models/Inventory";
 import { removeItemFromInventory } from "../lib/removeItemFromInventory";
 import { createItem } from "../lib/createItem";
 

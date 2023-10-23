@@ -1,8 +1,19 @@
 import mongoose, { Document, Schema } from "mongoose";
-import { Item } from "../types/Item";
-import { ItemKind } from "../types/ItemKind";
 
-export interface InventoryDocument extends Document {
+export enum ItemKind {
+  exp,
+  normalSummonScroll,
+}
+
+export type Item = {
+  stackable: boolean;
+  type: ItemKind;
+  name: string;
+  image: string;
+  amount: number;
+};
+
+export interface Inventory extends Document {
   user: string;
   items: Item[];
 }
@@ -15,14 +26,11 @@ const itemSchema = new Schema<Item>({
   amount: { type: Number, required: true },
 });
 
-const inventorySchema = new Schema<InventoryDocument>({
+const inventorySchema = new Schema<Inventory>({
   user: { type: String, required: true },
   items: [itemSchema],
 });
 
-const Inventory = mongoose.model<InventoryDocument>(
-  "Inventory",
-  inventorySchema
-);
+const Inventory = mongoose.model<Inventory>("Inventory", inventorySchema);
 
 export default Inventory;

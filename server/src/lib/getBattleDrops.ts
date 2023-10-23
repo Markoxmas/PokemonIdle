@@ -1,5 +1,5 @@
 import { getDropTable } from "./getDropTable";
-import { ItemKind } from "../types/ItemKind";
+import { ItemKind } from "../models/Inventory";
 
 export const getBattleDrops = (damageDone: number, kills: number) => {
   const dropTable = getDropTable();

@@ -1,4 +1,4 @@
-import { Pokemon } from "../types/Pokemon";
+import { Pokemon } from "../models/Pokemon";
 
 export default function calculateCp(pokemon: Pokemon): number {
   return Math.floor(

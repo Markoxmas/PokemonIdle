@@ -5,7 +5,7 @@ import Inventory from "../models/Inventory";
 import { getBattleResults } from "../lib/getBattleResults";
 import { addItemToInventory } from "../lib/addItemToInventory";
 import { removeItemFromInventory } from "../lib/removeItemFromInventory";
-import { ItemKind } from "../types/ItemKind";
+import { ItemKind } from "../models/Inventory";
 
 export const updateBattleTimelineController = async (
   req: Request,

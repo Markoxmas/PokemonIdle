@@ -1,12 +1,12 @@
 import mongoose, { Document, Schema } from "mongoose";
-import { IPokemon, PokemonSchema } from "./Pokemon";
+import { Pokemon, PokemonSchema } from "./Pokemon";
 
 interface Checkpoint {
   startTime: number;
-  pokemon: Array<IPokemon>;
+  pokemon: Array<Pokemon>;
 }
 
-interface IBattleTimeline extends Document {
+export interface BattleTimeline extends Document {
   user: string;
   startTime: number;
   startHp: number;
@@ -27,7 +27,7 @@ const BattleTimelineSchema: Schema = new Schema({
   checkpoints: { type: [CheckpointSchema], required: true, default: [] },
 });
 
-const BattleTimelineModel = mongoose.model<IBattleTimeline>(
+const BattleTimelineModel = mongoose.model<BattleTimeline>(
   "BattleTimeline",
   BattleTimelineSchema
 );
