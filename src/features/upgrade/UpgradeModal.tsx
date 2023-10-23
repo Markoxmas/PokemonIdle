@@ -77,7 +77,7 @@ export default function SummonModal() {
                   .map((p) => <SacrificePokemonCard pokemon={p} />)}
             </div>
             <Button
-              variant="outlined"
+              variant="contained"
               style={{ marginTop: "20px" }}
               onClick={() => dispatch(closeSacrificeModal())}
             >

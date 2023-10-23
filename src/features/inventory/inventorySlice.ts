@@ -4,7 +4,14 @@ import { initializeApp } from "../init/initSlice";
 import { levelUpPokemon } from "../upgrade/upgradeSlice";
 import { claimDrops } from "../battle/battleSlice";
 
+export enum ItemKind {
+  exp,
+  normalSummonScroll,
+}
+
 export type Item = {
+  stackable: boolean;
+  type: ItemKind;
   name: string;
   image: string;
   amount: number;
@@ -28,10 +35,10 @@ export const inventorySlice = createSlice({
     builder
       .addCase(normalSummonPokemon.fulfilled, (state, action) => {
         state.items = state.items.map((item) =>
-          item.name === "normalSummonScroll"
+          item.type === ItemKind.normalSummonScroll
             ? {
                 ...item,
-                amount: item.amount - action.payload.normalSummonScrollsAmount,
+                amount: item.amount - action.payload.summonedPokemon.length,
               }
             : item
         );
@@ -41,7 +48,7 @@ export const inventorySlice = createSlice({
       })
       .addCase(levelUpPokemon.fulfilled, (state, action) => {
         state.items = state.items.map((item) =>
-          item.name === "exp"
+          item.type === ItemKind.exp
             ? { ...item, amount: action.payload.exp.amount }
             : item
         );

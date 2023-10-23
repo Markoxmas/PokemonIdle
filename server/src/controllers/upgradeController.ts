@@ -3,6 +3,9 @@ import PokemonModel from "../models/Pokemon";
 import Inventory from "../models/Inventory";
 import calculateCp from "../lib/calculateCp";
 import { Pokemon } from "../types/Pokemon";
+import { ItemKind } from "../types/ItemKind";
+import { removeItemFromInventory } from "../lib/removeItemFromInventory";
+import { createItem } from "../lib/createItem";
 
 export const levelUpController = async (
   req: Request,
@@ -25,14 +28,15 @@ export const levelUpController = async (
       return;
     }
 
-    const exp = inventory.items.find((item) => item.name === "exp");
+    const exp = inventory.items.find((item) => item.type === ItemKind.exp);
     if (exp) {
       if (exp.amount >= 1000) {
         pokemon.level++;
         pokemon.cp = calculateCp(pokemon);
 
-        inventory.items = inventory.items.map((item) =>
-          item.name === "exp" ? { ...item, amount: item.amount - 1000 } : item
+        inventory.items = removeItemFromInventory(
+          inventory,
+          createItem(ItemKind.exp, 1000)
         );
 
         await pokemon.save();
@@ -40,7 +44,7 @@ export const levelUpController = async (
 
         res.json({
           pokemon: pokemon,
-          exp: inventory.items.find((item) => item.name === "exp"),
+          exp: inventory.items.find((item) => item.type === ItemKind.exp),
         });
       } else {
         res.status(400).json({ message: "Not enough exp to level up" });

@@ -1,10 +1,6 @@
 import mongoose, { Document, Schema } from "mongoose";
-
-export interface Item {
-  name: string;
-  image: string;
-  amount: number;
-}
+import { Item } from "../types/Item";
+import { ItemKind } from "../types/ItemKind";
 
 export interface InventoryDocument extends Document {
   user: string;
@@ -12,8 +8,11 @@ export interface InventoryDocument extends Document {
 }
 
 const itemSchema = new Schema<Item>({
+  stackable: { type: Boolean, required: true },
+  type: { type: Number, required: true },
   name: { type: String, required: true },
-  amount: { type: Number, required: true, default: 1 },
+  image: { type: String, required: true },
+  amount: { type: Number, required: true },
 });
 
 const inventorySchema = new Schema<InventoryDocument>({

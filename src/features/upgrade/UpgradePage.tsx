@@ -5,6 +5,7 @@ import UpgradePokemonCard from "./UpgradePokemonCard";
 import SacrificeSlotPokemonCard from "./SacrificeSlotPokemonCard";
 import UpgradeModal from "./UpgradeModal";
 import { Pokemon } from "../pokemon/pokemonSlice";
+import { ItemKind } from "../inventory/inventorySlice";
 
 function areSacrificesFulfilled(pokemon: Pokemon, sacrifices: string[][]) {
   for (let i = 0; i < pokemon.sacrifices.length; i++) {
@@ -27,7 +28,7 @@ function UpgradePage() {
   const sacrificesFulfilled = selectedPokemon
     ? areSacrificesFulfilled(selectedPokemon, sacrifices)
     : false;
-  const exp = inventory.items.find((item) => item.name === "exp");
+  const exp = inventory.items.find((item) => item.type === ItemKind.exp);
 
   return (
     <div

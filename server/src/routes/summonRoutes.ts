@@ -3,6 +3,6 @@ import { normalSummonController } from "../controllers/summonController";
 
 const router = express.Router();
 
-router.post("/normal/:amount", normalSummonController);
+router.post("/normal/:user/:amount", normalSummonController);
 
 export default router;

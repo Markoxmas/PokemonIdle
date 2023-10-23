@@ -3,6 +3,9 @@ import Pokemon from "../models/Pokemon";
 import BattleTimeline from "../models/BattleTimeline";
 import Inventory from "../models/Inventory";
 import { getBattleResults } from "../lib/getBattleResults";
+import { addItemToInventory } from "../lib/addItemToInventory";
+import { removeItemFromInventory } from "../lib/removeItemFromInventory";
+import { ItemKind } from "../types/ItemKind";
 
 export const updateBattleTimelineController = async (
   req: Request,
@@ -124,7 +127,7 @@ export const claimDropsController = async (
       return;
     }
 
-    //Get
+    //Get battle results
     const battleResults = getBattleResults(battleTimeline);
 
     //Add the drops to the inventory
@@ -135,39 +138,9 @@ export const claimDropsController = async (
       return;
     }
 
-    //Add exp to inventory
-    const exp = inventory.items.find(
-      (inventoryItem) => inventoryItem.name === "exp"
-    );
-    if (exp) {
-      exp.amount +=
-        battleResults.drops.find((drop) => drop.name === "exp")?.amount || 0;
-    } else {
-      inventory.items.push({
-        name: "exp",
-        image: "exp",
-        amount:
-          battleResults.drops.find((drop) => drop.name === "exp")?.amount || 0,
-      });
-    }
-    //Add normal summon scrolls to inventory
-    const normalSummonScrolls = inventory.items.find(
-      (inventoryItem) => inventoryItem.name === "Normal Summon Scroll"
-    );
-    if (normalSummonScrolls) {
-      normalSummonScrolls.amount +=
-        battleResults.drops.find((drop) => drop.name === "Normal Summon Scroll")
-          ?.amount || 0;
-    } else {
-      inventory.items.push({
-        name: "Normal Summon Scroll",
-        image: "normalSummonScroll",
-        amount:
-          battleResults.drops.find(
-            (drop) => drop.name === "Normal Summon Scroll"
-          )?.amount || 0,
-      });
-    }
+    battleResults.drops.forEach((drop) => {
+      inventory.items = addItemToInventory(inventory, drop);
+    });
 
     await inventory.save();
 

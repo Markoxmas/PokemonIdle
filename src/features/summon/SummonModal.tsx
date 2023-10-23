@@ -65,7 +65,7 @@ export default function SummonModal() {
               ))}
             </div>
             <Button
-              variant="outlined"
+              variant="contained"
               style={{ marginTop: "20px" }}
               onClick={() => dispatch(closeSummonModal())}
             >

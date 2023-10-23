@@ -63,7 +63,7 @@ export default function DropsModal() {
               ))}
             </div>
             <Button
-              variant="outlined"
+              variant="contained"
               style={{ marginTop: "20px" }}
               onClick={() => dispatch(closeDropsModal())}
             >

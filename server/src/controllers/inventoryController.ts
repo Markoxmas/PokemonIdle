@@ -1,5 +1,8 @@
 import { Request, Response } from "express";
 import Inventory from "../models/Inventory";
+import { ItemKind } from "../types/ItemKind";
+import { createItem } from "../lib/createItem";
+import { addItemToInventory } from "../lib/addItemToInventory";
 
 export const getInventoryController = async (
   req: Request,
@@ -39,16 +42,8 @@ export const createInventoryController = async (
 
     const newInventory = new Inventory({ user });
     newInventory.items = [
-      {
-        name: "exp",
-        image: "exp",
-        amount: 0,
-      },
-      {
-        name: "normalSummonScroll",
-        image: "normalSummonScroll",
-        amount: 0,
-      },
+      createItem(ItemKind.exp),
+      createItem(ItemKind.normalSummonScroll),
     ];
 
     await newInventory.save();
@@ -115,15 +110,7 @@ export const addItemToInventoryController = async (
       return;
     }
 
-    //Add item(s) to inventory
-    const existingItem = inventory.items.find(
-      (inventoryItem) => inventoryItem.name === item.name
-    );
-    if (existingItem) {
-      existingItem.amount += item.amount;
-    } else {
-      inventory.items.push(item);
-    }
+    inventory.items = addItemToInventory(inventory, item);
 
     await inventory.save();
 

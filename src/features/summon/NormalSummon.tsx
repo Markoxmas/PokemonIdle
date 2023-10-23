@@ -6,12 +6,13 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { normalSummonPokemon } from "./summonSlice";
+import { ItemKind } from "../inventory/inventorySlice";
 
 export default function BasicCard() {
   const dispatch = useAppDispatch();
   const { items } = useAppSelector((state) => state.inventory);
   const normalSummonScrolls = items.find(
-    (item) => item.name === "normalSummonScroll"
+    (item) => item.type === ItemKind.normalSummonScroll
   );
 
   return (
