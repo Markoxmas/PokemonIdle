@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export enum RequestStatus {
   Idle,
@@ -72,9 +72,21 @@ export const addNormalSummonScrolls = createAsyncThunk(
   "dev/addNormalSummonScrolls",
   async (amount: number) => {
     const response = await fetch(
-      `http://localhost:3001/inventory/admin/normalSummonScrolls/${amount}`,
+      "http://localhost:3001/inventory/add-item/admin",
       {
         method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          item: {
+            stackable: true,
+            type: 1, //should be ItemKind.normalSummonScroll, but for some reason it gives an error
+            name: "Normal Summon Scroll",
+            image: "normalSummonScroll",
+            amount: amount,
+          },
+        }),
       }
     );
     const data = await response.json();
@@ -225,7 +237,5 @@ export const devSlice = createSlice({
       });
   },
 });
-
-export const {} = devSlice.actions;
 
 export default devSlice.reducer;

@@ -1,7 +1,7 @@
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Box from "@mui/material/Box";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppDispatch } from "../../app/hooks";
 import {
   summonPokemon,
   deleteAllPokemon,
@@ -15,7 +15,6 @@ import {
 
 export default function DevPage() {
   const dispatch = useAppDispatch();
-  const { status, success } = useAppSelector((state) => state.dev);
 
   return (
     <Box

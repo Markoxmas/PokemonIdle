@@ -10,9 +10,9 @@ import battleReducer from "../features/battle/battleSlice";
 export const store = configureStore({
   reducer: {
     navigation: navigationReducer,
-    dev: devReducer,
     pokemon: pokemonReducer,
     inventory: inventoryReducer,
+    dev: devReducer,
     summon: summonReducer,
     upgrade: upgradeReducer,
     battle: battleReducer,

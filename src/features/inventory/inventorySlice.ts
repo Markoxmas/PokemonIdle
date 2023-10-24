@@ -3,6 +3,7 @@ import { normalSummonPokemon } from "../summon/summonSlice";
 import { initializeApp } from "../init/initSlice";
 import { levelUpPokemon } from "../upgrade/upgradeSlice";
 import { claimDrops } from "../battle/battleSlice";
+import { addNormalSummonScrolls } from "../dev/devSlice";
 
 export enum ItemKind {
   exp,
@@ -55,6 +56,13 @@ export const inventorySlice = createSlice({
       })
       .addCase(claimDrops.fulfilled, (state, action) => {
         state.items = action.payload.inventory.items;
+      })
+      .addCase(addNormalSummonScrolls.fulfilled, (state, action) => {
+        state.items = state.items.map((item) =>
+          item.type === ItemKind.normalSummonScroll
+            ? { ...item, amount: item.amount + action.payload.amount }
+            : item
+        );
       });
   },
 });
