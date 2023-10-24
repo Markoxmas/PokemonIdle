@@ -4,7 +4,6 @@ import BattleTimelineModel from "../models/BattleTimeline";
 import Inventory from "../models/Inventory";
 import { getBattleResults } from "../lib/getBattleResults";
 import { addItemToInventory } from "../lib/addItemToInventory";
-import { getPokemonsToKickOut } from "../lib/getPokemonsToKickOut";
 import { Pokemon } from "../models/Pokemon";
 import { addCheckpointToTimeline } from "../lib/addCheckpointToTimeline";
 import mongoose, { UpdateWriteOpResult } from "mongoose";
