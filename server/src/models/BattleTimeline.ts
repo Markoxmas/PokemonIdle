@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document, ObjectId, Schema } from "mongoose";
 import { Pokemon, PokemonSchema } from "./Pokemon";
 
 interface Checkpoint {
@@ -7,6 +7,7 @@ interface Checkpoint {
 }
 
 export interface BattleTimeline extends Document {
+  _id: ObjectId;
   user: string;
   startTime: number;
   startHp: number;
@@ -20,6 +21,7 @@ const CheckpointSchema: Schema = new Schema({
 });
 
 const BattleTimelineSchema: Schema = new Schema({
+  _id: { type: Schema.Types.ObjectId, required: true },
   user: { type: String, required: true },
   startTime: { type: Number, required: true, default: -1 },
   startHp: { type: Number, required: true, default: 10000 },

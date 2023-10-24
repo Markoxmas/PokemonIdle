@@ -1,5 +1,6 @@
 import getPokedex from "./getPokedex";
 import calculateCp from "./calculateCp";
+import mongoose from "mongoose";
 
 const starChances = [0.5, 0.9, 1.0];
 
@@ -20,6 +21,7 @@ export const normalSummonPokemon = () => {
   const starRoll = Math.random();
 
   let pokemon = {
+    _id: new mongoose.Types.ObjectId(),
     user: "admin",
     name: chosenPokemon.name,
     level: 1,

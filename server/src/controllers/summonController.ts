@@ -46,6 +46,6 @@ export const normalSummonController = async (
       summonedPokemon,
     });
   } catch (error) {
-    res.status(500).json({ message: "Failed to summon new Pokémon!" });
+    res.status(500).json({ message: "Failed to summon new Pokémon!", error });
   }
 };

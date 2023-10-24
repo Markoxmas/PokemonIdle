@@ -21,7 +21,7 @@ export const summonPokemon = createAsyncThunk(
   "dev/summonPokemon",
   async (amount: number) => {
     const response = await fetch(
-      `http://localhost:3001/summon/normal/${amount}`,
+      `http://localhost:3001/summon/normal/admin/${amount}`,
       {
         method: "POST",
         headers: {

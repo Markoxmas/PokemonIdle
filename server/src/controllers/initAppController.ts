@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import PokemonModel from "../models/Pokemon";
-import Inventory from "../models/Inventory";
-import BattleTimeline from "../models/BattleTimeline";
+import InventoryModel from "../models/Inventory";
+import BattleTimelineModel from "../models/BattleTimeline";
 
 export const initAppController = async (
   req: Request,
@@ -12,9 +12,9 @@ export const initAppController = async (
 
     const pokemon = await PokemonModel.find({ user });
 
-    const inventory = await Inventory.findOne({ user });
+    const inventory = await InventoryModel.findOne({ user });
 
-    const battleTimeline = await BattleTimeline.findOne({ user });
+    const battleTimeline = await BattleTimelineModel.findOne({ user });
 
     if (pokemon && inventory) {
       res.status(200).json({ pokemon, inventory, battleTimeline });

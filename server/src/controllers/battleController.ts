@@ -1,11 +1,13 @@
 import { Request, Response } from "express";
-import Pokemon from "../models/Pokemon";
-import BattleTimeline from "../models/BattleTimeline";
+import PokemonModel from "../models/Pokemon";
+import BattleTimelineModel from "../models/BattleTimeline";
 import Inventory from "../models/Inventory";
 import { getBattleResults } from "../lib/getBattleResults";
 import { addItemToInventory } from "../lib/addItemToInventory";
-import { removeItemFromInventory } from "../lib/removeItemFromInventory";
-import { ItemKind } from "../models/Inventory";
+import { getPokemonsToKickOut } from "../lib/getPokemonsToKickOut";
+import { Pokemon } from "../models/Pokemon";
+import { addCheckpointToTimeline } from "../lib/addCheckpointToTimeline";
+import mongoose, { UpdateWriteOpResult } from "mongoose";
 
 export const updateBattleTimelineController = async (
   req: Request,
@@ -13,57 +15,58 @@ export const updateBattleTimelineController = async (
 ): Promise<void> => {
   try {
     const { user } = req.params;
-    const { checkpointPokemons } = req.body;
+    const { checkpointPokemons }: { checkpointPokemons: Pokemon[] } = req.body;
 
-    const battleTimeline = await BattleTimeline.findOne({ user });
+    let battleTimeline = await BattleTimelineModel.findOne({ user });
 
     if (!battleTimeline) {
       res.status(404).json({ message: "Battle timeline not found" });
       return;
     }
 
-    // Check if checkpointPokemons exist in the database
-    const existingCheckpointPokemons = await Pokemon.find({
-      user,
-      _id: { $in: checkpointPokemons },
-    });
+    //Reset all user's pokemon
+    const update = {
+      $set: {
+        battleSlot: 0,
+        inBattle: 0,
+      },
+    };
 
-    if (existingCheckpointPokemons.length !== checkpointPokemons.length) {
-      res.status(404).json({ message: "Invalid Pokemon in the request" });
-      return;
+    try {
+      await PokemonModel.updateMany({ user }, update);
+    } catch (err) {
+      console.error("Error resetting Pokémon:", err);
     }
 
-    //Update battle slots on pokemon
-    existingCheckpointPokemons.forEach((pokemon) => {
-      const updatedPokemon = checkpointPokemons.find(
-        (checkpointPokemon: any) =>
-          checkpointPokemon._id === pokemon._id.toString()
-      );
+    const updatePromises = checkpointPokemons.map(async (checkpointPokemon) => {
+      try {
+        const pokemon = await PokemonModel.findOne({
+          _id: checkpointPokemon._id,
+          user: checkpointPokemon.user,
+        });
 
-      pokemon.inBattle = updatedPokemon.inBattle;
-      pokemon.battleSlot = updatedPokemon.battleSlot;
+        if (!pokemon) {
+          console.error(`Pokemon not found for _id: ${checkpointPokemon._id}`);
+          return;
+        }
+
+        pokemon.battleSlot = checkpointPokemon.battleSlot;
+        pokemon.inBattle = checkpointPokemon.inBattle;
+
+        await pokemon.save();
+      } catch (error) {
+        console.error(`Error updating Pokemon: ${error}`);
+      }
     });
 
-    //If battle timeline hasn't started, start it
-    if (battleTimeline?.checkpoints.length === 0) {
-      const time = Date.now();
-      battleTimeline.startTime = time;
-      battleTimeline.checkpoints.push({
-        startTime: time,
-        pokemon: existingCheckpointPokemons,
-      });
-    } else if (battleTimeline?.checkpoints.length > 0) {
-      const time = Date.now();
-      battleTimeline.checkpoints.push({
-        startTime: time,
-        pokemon: existingCheckpointPokemons,
-      });
-    }
+    await Promise.all(updatePromises);
+
+    battleTimeline = addCheckpointToTimeline(
+      battleTimeline,
+      checkpointPokemons
+    );
 
     await battleTimeline.save();
-    await Promise.all(
-      existingCheckpointPokemons.map((pokemon) => pokemon.save())
-    );
 
     //Return the battle timeline to the user
     res.json({ battleTimeline });
@@ -79,14 +82,15 @@ export const createBattleTimelineController = async (
   try {
     const { user } = req.params;
 
-    const battleTimeline = await BattleTimeline.findOne({ user });
+    const battleTimeline = await BattleTimelineModel.findOne({ user });
 
     if (battleTimeline) {
       res.status(400).json({ message: "Battle timeline already exists" });
       return;
     }
 
-    const newBattleTimeline = new BattleTimeline({
+    const newBattleTimeline = new BattleTimelineModel({
+      _id: new mongoose.Types.ObjectId(),
       user,
     });
 
@@ -94,7 +98,9 @@ export const createBattleTimelineController = async (
 
     res.json({ battleTimeline: newBattleTimeline });
   } catch (error) {
-    res.status(500).json({ message: "Failed to create battle timeline" });
+    res
+      .status(500)
+      .json({ message: "Failed to create battle timeline", error });
   }
 };
 
@@ -105,7 +111,7 @@ export const deleteBattleTimelineController = async (
   try {
     const { user } = req.params;
 
-    await BattleTimeline.deleteOne({ user });
+    await BattleTimelineModel.deleteOne({ user });
 
     res.json({ message: "Battle timeline deleted" });
   } catch (error) {
@@ -120,7 +126,7 @@ export const claimDropsController = async (
   try {
     const { user } = req.params;
 
-    const battleTimeline = await BattleTimeline.findOne({ user });
+    const battleTimeline = await BattleTimelineModel.findOne({ user });
 
     if (!battleTimeline) {
       res.status(404).json({ message: "Battle timeline not found" });
