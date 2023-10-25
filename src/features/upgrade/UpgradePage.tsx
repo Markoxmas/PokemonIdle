@@ -43,10 +43,15 @@ function UpgradePage() {
           <div style={{ margin: "20px" }}>
             <Button
               variant="contained"
-              disabled={exp.amount < 1000}
+              disabled={
+                exp.amount < selectedPokemon.nextLevelCost ||
+                selectedPokemon.level === selectedPokemon.maxLevel
+              }
               onClick={() => dispatch(levelUpPokemon(selectedPokemon._id))}
             >
-              Level up ({selectedPokemon.nextLevelCost} exp)
+              {selectedPokemon.level === selectedPokemon.maxLevel
+                ? "Max level"
+                : `Level up (${selectedPokemon.nextLevelCost} exp)`}
             </Button>
             <div>You have {exp.amount} exp</div>
           </div>

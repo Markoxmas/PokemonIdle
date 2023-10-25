@@ -7,6 +7,7 @@ import { ItemKind } from "../models/Inventory";
 import { removeItemFromInventory } from "../lib/removeItemFromInventory";
 import { createItem } from "../lib/createItem";
 import { getLevelUpCost } from "../lib/getLevelUpCost";
+import { getMaxLevel } from "../lib/getMaxLevel";
 
 export const levelUpController = async (
   req: Request,
@@ -37,7 +38,8 @@ export const levelUpController = async (
           createItem(ItemKind.exp, pokemon.nextLevelCost)
         );
 
-        pokemon.level++;
+        pokemon.level =
+          pokemon.level < pokemon.maxLevel ? pokemon.level + 1 : pokemon.level;
         pokemon.cp = calculateCp(pokemon);
         pokemon.nextLevelCost = getLevelUpCost(pokemon);
 
@@ -117,6 +119,7 @@ export const starUpController = async (
 
       pokemon.stars += 1;
       pokemon.cp = calculateCp(pokemon);
+      pokemon.maxLevel = getMaxLevel(pokemon);
 
       await pokemon.save();
 

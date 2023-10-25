@@ -5,4 +5,12 @@ export const serverConfig = {
   level_cp_r: 1.0248,
   star_cp_a1: 1,
   star_cp_r: 1.8016,
+  max_level_3_star: 50,
+  max_level_4_star: 80,
+  max_level_5_star: 100,
+  max_level_6_star: 140,
+  max_level_7_star: 180,
+  max_level_8_star: 220,
+  max_level_9_star: 260,
+  max_level_10_star: 300,
 };

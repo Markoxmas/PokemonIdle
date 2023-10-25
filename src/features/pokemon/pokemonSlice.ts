@@ -14,6 +14,7 @@ export type Pokemon = {
   inBattle: number;
   battleSlot: number;
   nextLevelCost: number;
+  maxLevel: number;
 };
 
 export interface PokemonState {

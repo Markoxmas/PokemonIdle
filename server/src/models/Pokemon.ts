@@ -18,6 +18,7 @@ export interface Pokemon extends Document {
   inBattle: number;
   battleSlot: number;
   nextLevelCost: number;
+  maxLevel: number;
 }
 
 export const PokemonSchema: Schema = new Schema({
@@ -31,6 +32,7 @@ export const PokemonSchema: Schema = new Schema({
   inBattle: { type: Number, required: true },
   battleSlot: { type: Number, required: true },
   nextLevelCost: { type: Number, required: true },
+  maxLevel: { type: Number, required: true },
 });
 
 const PokemonModel = mongoose.model<Pokemon>("Pokemon", PokemonSchema);
