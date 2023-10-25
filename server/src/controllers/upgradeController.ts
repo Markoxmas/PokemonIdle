@@ -6,6 +6,7 @@ import { Pokemon } from "../models/Pokemon";
 import { ItemKind } from "../models/Inventory";
 import { removeItemFromInventory } from "../lib/removeItemFromInventory";
 import { createItem } from "../lib/createItem";
+import { getLevelUpCost } from "../lib/getLevelUpCost";
 
 export const levelUpController = async (
   req: Request,
@@ -30,14 +31,15 @@ export const levelUpController = async (
 
     const exp = inventory.items.find((item) => item.type === ItemKind.exp);
     if (exp) {
-      if (exp.amount >= 1000) {
-        pokemon.level++;
-        pokemon.cp = calculateCp(pokemon);
-
+      if (exp.amount >= pokemon.nextLevelCost) {
         inventory.items = removeItemFromInventory(
           inventory,
-          createItem(ItemKind.exp, 1000)
+          createItem(ItemKind.exp, pokemon.nextLevelCost)
         );
+
+        pokemon.level++;
+        pokemon.cp = calculateCp(pokemon);
+        pokemon.nextLevelCost = getLevelUpCost(pokemon);
 
         await pokemon.save();
         await inventory.save();

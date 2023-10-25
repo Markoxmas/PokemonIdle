@@ -46,7 +46,7 @@ function UpgradePage() {
               disabled={exp.amount < 1000}
               onClick={() => dispatch(levelUpPokemon(selectedPokemon._id))}
             >
-              Level up (1000 exp)
+              Level up ({selectedPokemon.nextLevelCost} exp)
             </Button>
             <div>You have {exp.amount} exp</div>
           </div>

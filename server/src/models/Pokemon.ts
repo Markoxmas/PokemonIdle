@@ -17,6 +17,7 @@ export interface Pokemon extends Document {
   sacrifices: SacrificeSlot[];
   inBattle: number;
   battleSlot: number;
+  nextLevelCost: number;
 }
 
 export const PokemonSchema: Schema = new Schema({
@@ -29,6 +30,7 @@ export const PokemonSchema: Schema = new Schema({
   sacrifices: { type: Array, required: true },
   inBattle: { type: Number, required: true },
   battleSlot: { type: Number, required: true },
+  nextLevelCost: { type: Number, required: true },
 });
 
 const PokemonModel = mongoose.model<Pokemon>("Pokemon", PokemonSchema);

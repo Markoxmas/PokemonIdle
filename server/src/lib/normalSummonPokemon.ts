@@ -1,6 +1,7 @@
 import getPokedex from "./getPokedex";
 import calculateCp from "./calculateCp";
 import mongoose from "mongoose";
+import { getLevelUpCost } from "./getLevelUpCost";
 
 const starChances = [0.5, 0.9, 1.0];
 
@@ -47,6 +48,8 @@ export const normalSummonPokemon = () => {
 
   //@ts-ignore
   pokemon.cp = calculateCp(pokemon);
+  //@ts-ignore
+  pokemon.nextLevelCost = getLevelUpCost(pokemon);
 
   return pokemon;
 };

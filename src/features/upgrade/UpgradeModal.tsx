@@ -13,7 +13,7 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 800,
+  width: 900,
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -21,7 +21,7 @@ const style = {
   textAlign: "center",
 };
 
-export default function SummonModal() {
+export default function UpgradeModal() {
   const dispatch = useAppDispatch();
   const { pokemonId, sacrifices, sacrificeSlot, openSacrificeModal } =
     useAppSelector((state) => state.upgrade);
@@ -57,6 +57,8 @@ export default function SummonModal() {
                 display: "flex",
                 flexWrap: "wrap",
                 justifyContent: "center",
+                maxHeight: "500px",
+                overflow: "auto",
               }}
             >
               {sacrificeSlot.name &&
