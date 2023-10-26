@@ -9,6 +9,7 @@ type SacrificeSlot = {
 
 export interface Pokemon extends Document {
   _id: ObjectId;
+  pokedexId: number;
   user: string;
   name: string;
   level: number;
@@ -23,6 +24,7 @@ export interface Pokemon extends Document {
 
 export const PokemonSchema: Schema = new Schema({
   _id: { type: Schema.Types.ObjectId, required: true },
+  pokedexId: { type: Number, required: true },
   user: { type: String, required: true },
   name: { type: String, required: true },
   level: { type: Number, required: true },

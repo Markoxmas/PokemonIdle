@@ -1,4 +1,4 @@
-import getPokedex from "./getPokedex";
+import { getPokedex } from "./getPokedex";
 import calculateCp from "./calculateCp";
 import mongoose from "mongoose";
 import { getLevelUpCost } from "./getLevelUpCost";
@@ -25,6 +25,7 @@ export const normalSummonPokemon = () => {
 
   let pokemon = {
     _id: new mongoose.Types.ObjectId(),
+    pokedexId: chosenPokemon.id,
     user: "admin",
     name: chosenPokemon.name,
     level: 1,

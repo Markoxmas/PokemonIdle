@@ -76,4 +76,6 @@ export const serverConfig = {
       slot: 1,
     },
   ],
+  evolution_1st_stage: 6,
+  evolution_2nd_stage: 8,
 };

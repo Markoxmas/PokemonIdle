@@ -9,6 +9,7 @@ import { createItem } from "../lib/createItem";
 import { getLevelUpCost } from "../lib/getLevelUpCost";
 import { getMaxLevel } from "../lib/getMaxLevel";
 import { getStarSacrifices } from "../lib/getStarSacrifices";
+import { getEvolutionData } from "../lib/getEvolutionData";
 
 export const levelUpController = async (
   req: Request,
@@ -122,6 +123,9 @@ export const starUpController = async (
       pokemon.cp = calculateCp(pokemon);
       pokemon.maxLevel = getMaxLevel(pokemon);
       pokemon.sacrifices = getStarSacrifices(pokemon);
+      const evolutionData = getEvolutionData(pokemon);
+      pokemon.pokedexId = evolutionData.pokedexId;
+      pokemon.name = evolutionData.name;
 
       await pokemon.save();
 

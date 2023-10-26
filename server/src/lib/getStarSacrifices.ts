@@ -1,8 +1,12 @@
 import { Pokemon } from "../models/Pokemon";
 import { serverConfig } from "../serverConfig";
+import { getPokedex } from "./getPokedex";
 
 export const getStarSacrifices = (pokemon: Pokemon) => {
   if (pokemon.stars < serverConfig.max_star_level) {
+    const pokedexPokemon = getPokedex().find(
+      (dexPokemon) => dexPokemon.name === pokemon.name
+    );
     //@ts-ignore
     const sacrifices = serverConfig[
       "sacrifices_" + pokemon.stars + "_star"
@@ -21,7 +25,7 @@ export const getStarSacrifices = (pokemon: Pokemon) => {
               slot: sacrifice.slot,
             }
           : {
-              name: pokemon.name,
+              name: pokedexPokemon?.basicPokemon,
               stars: sacrifice.stars,
               amount: sacrifice.amount,
               slot: sacrifice.slot,
