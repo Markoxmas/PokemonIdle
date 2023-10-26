@@ -2,8 +2,8 @@ import getPokedex from "./getPokedex";
 import calculateCp from "./calculateCp";
 import mongoose from "mongoose";
 import { getLevelUpCost } from "./getLevelUpCost";
-import { serverConfig } from "../serverConfig";
 import { getMaxLevel } from "./getMaxLevel";
+import { getStarSacrifices } from "./getStarSacrifices";
 
 const starChances = [0.5, 0.9, 1.0];
 
@@ -30,20 +30,6 @@ export const normalSummonPokemon = () => {
     level: 1,
     stars: getStars(starRoll),
     cp: 0,
-    sacrifices: [
-      {
-        name: chosenPokemon.name,
-        stars: 3,
-        amount: 1,
-        slot: 0,
-      },
-      {
-        name: null,
-        stars: 4,
-        amount: 2,
-        slot: 1,
-      },
-    ],
     inBattle: 0,
     battleSlot: 0,
   };
@@ -54,6 +40,8 @@ export const normalSummonPokemon = () => {
   pokemon.nextLevelCost = getLevelUpCost(pokemon);
   //@ts-ignore
   pokemon.maxLevel = getMaxLevel(pokemon);
+  //@ts-ignore
+  pokemon.sacrifices = getStarSacrifices(pokemon);
 
   return pokemon;
 };

@@ -60,17 +60,20 @@ function UpgradePage() {
               <SacrificeSlotPokemonCard sacrificeSlot={sacrificeSlot} />
             ))}
           </div>
-          <Button
-            variant="contained"
-            disabled={!sacrificesFulfilled}
-            onClick={() =>
-              dispatch(
-                starUpPokemon({ pokemonId: selectedPokemon._id, sacrifices })
-              )
-            }
-          >
-            Star up
-          </Button>
+          {selectedPokemon.sacrifices.length !== 0 && (
+            <Button
+              variant="contained"
+              disabled={!sacrificesFulfilled}
+              onClick={() =>
+                dispatch(
+                  starUpPokemon({ pokemonId: selectedPokemon._id, sacrifices })
+                )
+              }
+            >
+              Star up
+            </Button>
+          )}
+
           <UpgradeModal />
         </div>
       )}

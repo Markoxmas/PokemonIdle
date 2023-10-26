@@ -13,4 +13,67 @@ export const serverConfig = {
   max_level_8_star: 220,
   max_level_9_star: 260,
   max_level_10_star: 300,
+  max_star_level: 10,
+  sacrifices_3_star: [
+    {
+      type: "same",
+      stars: 3,
+      amount: 3,
+      slot: 0,
+    },
+  ],
+  sacrifices_4_star: [
+    {
+      type: "same",
+      stars: 4,
+      amount: 3,
+      slot: 0,
+    },
+  ],
+  sacrifices_5_star: [
+    {
+      type: "same",
+      stars: 5,
+      amount: 1,
+      slot: 0,
+    },
+  ],
+  sacrifices_6_star: [
+    {
+      type: "any",
+      stars: 6,
+      amount: 1,
+      slot: 0,
+    },
+  ],
+  sacrifices_7_star: [
+    {
+      type: "any",
+      stars: 5,
+      amount: 2,
+      slot: 0,
+    },
+  ],
+  sacrifices_8_star: [
+    {
+      type: "any",
+      stars: 8,
+      amount: 1,
+      slot: 0,
+    },
+  ],
+  sacrifices_9_star: [
+    {
+      type: "same",
+      stars: 5,
+      amount: 2,
+      slot: 0,
+    },
+    {
+      type: "any",
+      stars: 7,
+      amount: 1,
+      slot: 1,
+    },
+  ],
 };
