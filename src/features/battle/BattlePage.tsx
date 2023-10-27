@@ -47,7 +47,9 @@ function BattlePage() {
       <Button
         variant="contained"
         style={{ marginTop: "20px" }}
-        onClick={() => dispatch(claimDrops())}
+        onClick={() =>
+          dispatch(claimDrops(pokemon.filter((p) => p.inBattle === 1)))
+        }
       >
         Claim drops
       </Button>

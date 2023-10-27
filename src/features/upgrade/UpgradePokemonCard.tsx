@@ -1,6 +1,7 @@
 import { Pokemon } from "../pokemon/pokemonSlice";
 import StarIcon from "@mui/icons-material/Star";
 import { AVATAR } from "../../assets/avatars/index";
+import { formatNumber } from "../../lib/formatNumber";
 
 const renderStars = (amount: number) => {
   const stars = [];
@@ -29,7 +30,7 @@ function UpgradePokemonCard({ selectedPokemon }: { selectedPokemon: Pokemon }) {
         src={AVATAR[selectedPokemon.name]}
         alt={selectedPokemon.name}
       />
-      <div>CP {selectedPokemon.cp}</div>
+      <div>CP {formatNumber(selectedPokemon.cp)}</div>
       <div>{renderStars(selectedPokemon.stars)}</div>
     </div>
   );

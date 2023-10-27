@@ -6,6 +6,7 @@ import SacrificeSlotPokemonCard from "./SacrificeSlotPokemonCard";
 import UpgradeModal from "./UpgradeModal";
 import { Pokemon } from "../pokemon/pokemonSlice";
 import { ItemKind } from "../inventory/inventorySlice";
+import { formatNumber } from "../../lib/formatNumber";
 
 function areSacrificesFulfilled(pokemon: Pokemon, sacrifices: string[][]) {
   for (let i = 0; i < pokemon.sacrifices.length; i++) {
@@ -51,9 +52,11 @@ function UpgradePage() {
             >
               {selectedPokemon.level === selectedPokemon.maxLevel
                 ? "Max level"
-                : `Level up (${selectedPokemon.nextLevelCost} exp)`}
+                : `Level up (${formatNumber(
+                    selectedPokemon.nextLevelCost
+                  )} exp)`}
             </Button>
-            <div>You have {exp.amount} exp</div>
+            <div>You have {formatNumber(exp.amount)} exp</div>
           </div>
           <div style={{ display: "flex", justifyContent: "center" }}>
             {selectedPokemon.sacrifices.map((sacrificeSlot) => (

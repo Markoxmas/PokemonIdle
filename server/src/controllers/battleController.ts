@@ -6,7 +6,7 @@ import { getBattleResults } from "../lib/getBattleResults";
 import { addItemToInventory } from "../lib/addItemToInventory";
 import { Pokemon } from "../models/Pokemon";
 import { addCheckpointToTimeline } from "../lib/addCheckpointToTimeline";
-import mongoose, { UpdateWriteOpResult } from "mongoose";
+import mongoose from "mongoose";
 
 export const updateBattleTimelineController = async (
   req: Request,
@@ -124,6 +124,7 @@ export const claimDropsController = async (
 ): Promise<void> => {
   try {
     const { user } = req.params;
+    const { checkpointPokemons } = req.body;
 
     const battleTimeline = await BattleTimelineModel.findOne({ user });
 
@@ -151,11 +152,32 @@ export const claimDropsController = async (
 
     //Reset the battle timeline
     const time = Date.now();
-    battleTimeline.startTime = time;
-    const lastCheckpoint =
-      battleTimeline.checkpoints[battleTimeline.checkpoints.length - 1];
-    battleTimeline.checkpoints = [{ ...lastCheckpoint, startTime: time }];
-    battleTimeline.startHp = battleResults.startHp;
+    if (checkpointPokemons.length > 0) {
+      battleTimeline.startTime = time;
+      battleTimeline.checkpoints = [
+        { startTime: time, pokemon: checkpointPokemons },
+      ];
+      battleTimeline.startHp = battleResults.startHp;
+    } else {
+      //Reset all user's pokemon
+      const update = {
+        $set: {
+          battleSlot: 0,
+          inBattle: 0,
+        },
+      };
+
+      try {
+        await PokemonModel.updateMany({ user }, update);
+      } catch (err) {
+        console.error("Error resetting Pokémon:", err);
+      }
+
+      //Initialize empty battle timeline
+      battleTimeline.startTime = time;
+      battleTimeline.checkpoints = [];
+      battleTimeline.startHp = battleResults.startHp;
+    }
 
     await battleTimeline.save();
 

@@ -6,6 +6,7 @@ import { Pokemon } from "./pokemonSlice";
 import { useAppDispatch } from "../../app/hooks";
 import { setTab, Tab } from "../navigation/navigationSlice";
 import { initUpgradePage } from "../upgrade/upgradeSlice";
+import { formatNumber } from "../../lib/formatNumber";
 
 const renderStars = (amount: number) => {
   const stars = [];
@@ -47,7 +48,7 @@ export default function PokemonCard({ pokemon }: { pokemon: Pokemon }) {
           <b>{pokemon.name} </b> ({pokemon.level})
         </div>
         <img width={120} src={AVATAR[pokemon.name]} alt={pokemon.name} />
-        <div>CP {pokemon.cp}</div>
+        <div>CP {formatNumber(pokemon.cp)}</div>
         <div>{renderStars(pokemon.stars)}</div>
       </Paper>
     </Box>

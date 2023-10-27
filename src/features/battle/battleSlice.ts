@@ -56,13 +56,23 @@ export const updateBattleTimeline = createAsyncThunk(
   }
 );
 
-export const claimDrops = createAsyncThunk("battle/claimDrops", async () => {
-  const response = await fetch(
-    `http://localhost:3001/battle/claim-drops/admin`
-  );
-  const data = await response.json();
-  return data;
-});
+export const claimDrops = createAsyncThunk(
+  "battle/claimDrops",
+  async (pokemon: Pokemon[]) => {
+    const response = await fetch(
+      `http://localhost:3001/battle/claim-drops/admin`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ checkpointPokemons: pokemon }),
+      }
+    );
+    const data = await response.json();
+    return data;
+  }
+);
 
 export const summonSlice = createSlice({
   name: "summon",

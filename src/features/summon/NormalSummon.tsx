@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { normalSummonPokemon } from "./summonSlice";
 import { ItemKind } from "../inventory/inventorySlice";
+import { formatNumber } from "../../lib/formatNumber";
 
 export default function BasicCard() {
   const dispatch = useAppDispatch();
@@ -28,7 +29,7 @@ export default function BasicCard() {
             Normal summon
           </Typography>
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            Scrolls: {normalSummonScrolls.amount}
+            Scrolls: {formatNumber(normalSummonScrolls.amount)}
           </Typography>
           <Typography variant="body2">
             You can summon

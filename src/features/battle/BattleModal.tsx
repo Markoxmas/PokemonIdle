@@ -109,7 +109,7 @@ export default function SummonModal({
                 style={{ marginTop: "20px" }}
                 onClick={() => {
                   dispatch(closeBattleModal());
-                  dispatch(claimDrops());
+                  dispatch(claimDrops(pokemon.filter((p) => p.inBattle === 1)));
                 }}
               >
                 Claim drops
