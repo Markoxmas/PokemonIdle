@@ -30,16 +30,3 @@ export const deleteUsersPokemonController = async (
     res.status(500).json({ message: "Failed to delete all Pokémon!" });
   }
 };
-
-export const deleteAllPokemonController = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
-  try {
-    await PokemonModel.deleteMany();
-
-    res.json({ message: "Deleted all Pokémon in the server" });
-  } catch (error) {
-    res.status(500).json({ message: "Failed to delete all Pokémon!" });
-  }
-};

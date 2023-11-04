@@ -9,10 +9,13 @@ import {
 
 const router = express.Router();
 
-router.patch("/update-battle-timeline/:user", updateBattleTimelineController);
-router.post("/create-battle-timeline/:user", createBattleTimelineController);
-router.delete("/delete-battle-timeline/:user", deleteBattleTimelineController);
-router.patch("/claim-drops/:user", claimDropsController);
-router.patch("/upgrade/levelUp/:user", upgradeTimelineAfterLevelUpController);
+router.patch("/update/timeline/:user", updateBattleTimelineController);
+router.post("/create/timeline/:user", createBattleTimelineController);
+router.delete("/delete/timeline/:user", deleteBattleTimelineController);
+router.patch("/claim/drops/:user", claimDropsController);
+router.patch(
+  "/update/timeline/levelup/:user",
+  upgradeTimelineAfterLevelUpController
+);
 
 export default router;

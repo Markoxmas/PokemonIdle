@@ -10,9 +10,8 @@ import {
 const router = express.Router();
 
 router.get("/:user", getInventoryController);
-router.post("/:user", createInventoryController);
+router.post("/create/:user", createInventoryController);
 router.delete("/:user", deleteUsersInventoryController);
-router.delete("/all", deleteAllInventoriesController);
-router.patch("/add-item/:user", addItemToInventoryController);
+router.patch("/add/item/:user", addItemToInventoryController);
 
 export default router;

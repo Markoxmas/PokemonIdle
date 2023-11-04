@@ -38,7 +38,7 @@ export const summonPokemon = createAsyncThunk(
 export const deleteAllPokemon = createAsyncThunk(
   "dev/deleteAllPokemon",
   async () => {
-    const response = await fetch(`http://localhost:3001/pokemon/admin`, {
+    const response = await fetch(`http://localhost:3001/pokemon/all/admin`, {
       method: "DELETE",
     });
     const data = await response.json();
@@ -60,9 +60,12 @@ export const deleteInventory = createAsyncThunk(
 export const createInventory = createAsyncThunk(
   "dev/createInventory",
   async () => {
-    const response = await fetch(`http://localhost:3001/inventory/admin`, {
-      method: "POST",
-    });
+    const response = await fetch(
+      `http://localhost:3001/inventory/create/admin`,
+      {
+        method: "POST",
+      }
+    );
     const data = await response.json();
     return data;
   }
@@ -72,7 +75,7 @@ export const addNormalSummonScrolls = createAsyncThunk(
   "dev/addNormalSummonScrolls",
   async (amount: number) => {
     const response = await fetch(
-      "http://localhost:3001/inventory/add-item/admin",
+      "http://localhost:3001/inventory/add/item/admin",
       {
         method: "PATCH",
         headers: {
@@ -109,7 +112,7 @@ export const createBattleTimeline = createAsyncThunk(
   "dev/createBattleTimeline",
   async () => {
     const response = await fetch(
-      `http://localhost:3001/battle/create-battle-timeline/admin`,
+      `http://localhost:3001/battle/create/timeline/admin`,
       {
         method: "POST",
       }
@@ -123,7 +126,7 @@ export const deleteBattleTimeline = createAsyncThunk(
   "dev/deleteBattleTimeline",
   async () => {
     const response = await fetch(
-      `http://localhost:3001/battle/delete-battle-timeline/admin`,
+      `http://localhost:3001/battle/delete/timeline/admin`,
       {
         method: "DELETE",
       }

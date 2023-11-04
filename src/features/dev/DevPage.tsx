@@ -90,13 +90,13 @@ export default function DevPage() {
         variant="contained"
       >
         <Button
-          key="create-battle-timeline"
+          key="create-timeline"
           onClick={() => dispatch(createBattleTimeline())}
         >
           Create battle timeline
         </Button>
         <Button
-          key="delete-battle-timeline"
+          key="delete-timeline"
           onClick={() => dispatch(deleteBattleTimeline())}
         >
           Delete battle timeline

@@ -43,7 +43,7 @@ export const updateBattleTimeline = createAsyncThunk(
   "battle/updateBattleTimeline",
   async (checkpointPokemons: Pokemon[]) => {
     const response = await fetch(
-      `http://localhost:3001/battle/update-battle-timeline/admin`,
+      `http://localhost:3001/battle/update/timeline/admin`,
       {
         method: "PATCH",
         headers: {
@@ -61,7 +61,7 @@ export const claimDrops = createAsyncThunk(
   "battle/claimDrops",
   async (pokemon: Pokemon[]) => {
     const response = await fetch(
-      `http://localhost:3001/battle/claim-drops/admin`,
+      `http://localhost:3001/battle/claim/drops/admin`,
       {
         method: "PATCH",
         headers: {
@@ -79,7 +79,7 @@ export const updateBattleTimelineAfterLevelUp = createAsyncThunk(
   "battle/updateBattleTimelineAfterLevelUp",
   async (upgradedPokemon: Pokemon) => {
     const response = await fetch(
-      `http://localhost:3001/battle/upgrade/levelUp/admin`,
+      `http://localhost:3001/battle/update/timeline/levelup/admin`,
       {
         method: "PATCH",
         headers: {
