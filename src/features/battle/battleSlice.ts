@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Pokemon } from "../pokemon/pokemonSlice";
 import { initializeApp } from "../init/initSlice";
 import { Item } from "../inventory/inventorySlice";
+import { starUpPokemon } from "../upgrade/upgradeSlice";
 
 type Checkpoint = {
   startTime: number;
@@ -114,6 +115,10 @@ export const summonSlice = createSlice({
       })
       .addCase(claimDrops.rejected, (state) => {
         state.status = "failed";
+      })
+      .addCase(starUpPokemon.fulfilled, (state, action) => {
+        state.battleTimeline.checkpoints =
+          action.payload.battleTimeline.checkpoints;
       });
   },
 });

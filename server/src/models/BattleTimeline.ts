@@ -1,7 +1,7 @@
 import mongoose, { Document, ObjectId, Schema } from "mongoose";
 import { Pokemon, PokemonSchema } from "./Pokemon";
 
-interface Checkpoint {
+export interface Checkpoint {
   startTime: number;
   pokemon: Array<Pokemon>;
 }

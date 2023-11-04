@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import PokemonModel from "../models/Pokemon";
 import Inventory from "../models/Inventory";
+import BattleTimeline from "../models/BattleTimeline";
 import calculateCp from "../lib/calculateCp";
 import { Pokemon } from "../models/Pokemon";
 import { ItemKind } from "../models/Inventory";
@@ -10,6 +11,7 @@ import { getLevelUpCost } from "../lib/getLevelUpCost";
 import { getMaxLevel } from "../lib/getMaxLevel";
 import { getStarSacrifices } from "../lib/getStarSacrifices";
 import { getEvolutionData } from "../lib/getEvolutionData";
+import { updateCheckpointPokemon } from "../lib/updateCheckpointPokemon";
 
 export const levelUpController = async (
   req: Request,
@@ -129,6 +131,46 @@ export const starUpController = async (
 
       await pokemon.save();
 
+      //Check if pokemon or sacrifices are in battle
+      const pokemonChanges: {
+        update: Pokemon[];
+        remove: Pokemon[];
+      } = {
+        update: [],
+        remove: [],
+      };
+
+      if (pokemon.inBattle) {
+        pokemonChanges.update.push(pokemon);
+      }
+      sacrificedPokemon.forEach((sacrificeArray) => {
+        sacrificeArray.forEach((sacrifice) => {
+          if (sacrifice.inBattle) {
+            pokemonChanges.remove.push(sacrifice);
+          }
+        });
+      });
+
+      //get battle timeline of the user
+      const battleTimeline = await BattleTimeline.findOne({ user });
+
+      if (pokemonChanges.remove.length + pokemonChanges.update.length > 0) {
+        if (battleTimeline) {
+          const lastCheckpoint =
+            battleTimeline.checkpoints[battleTimeline.checkpoints.length - 1];
+
+          if (lastCheckpoint) {
+            battleTimeline.checkpoints.push(
+              updateCheckpointPokemon(lastCheckpoint, pokemonChanges)
+            );
+          }
+
+          await battleTimeline.save();
+        } else {
+          res.status(404).json({ message: "Battle timeline not found" });
+        }
+      }
+
       //flatten and extract ids from sacrificedPokemon
       const flattenedSacrifices = sacrificedPokemon.flat().map((pokemon) => {
         // @ts-ignore
@@ -140,6 +182,7 @@ export const starUpController = async (
           res.json({
             pokemon: pokemon,
             sacrificedPokemon: flattenedSacrifices,
+            battleTimeline: battleTimeline,
           });
         })
         .catch((err) => {
