@@ -30,7 +30,6 @@ export const normalSummonPokemon = () => {
     name: chosenPokemon.name,
     level: 1,
     stars: getStars(starRoll),
-    cp: 0,
     inBattle: 0,
     battleSlot: 0,
   };

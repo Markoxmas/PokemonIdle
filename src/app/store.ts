@@ -7,6 +7,7 @@ import summonReducer from "../features/summon/summonSlice";
 import upgradeReducer from "../features/upgrade/upgradeSlice";
 import battleReducer from "../features/battle/battleSlice";
 import delayedActionReducer from "../features/delayedAction/delayedActionSlice";
+import pokedexReducer from "../features/pokedex/pokedexSlice";
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
     upgrade: upgradeReducer,
     battle: battleReducer,
     delayedAction: delayedActionReducer,
+    pokedex: pokedexReducer,
   },
 });
 

@@ -21,7 +21,6 @@ const CheckpointSchema: Schema = new Schema({
 });
 
 const BattleTimelineSchema: Schema = new Schema({
-  _id: { type: Schema.Types.ObjectId, required: true },
   user: { type: String, required: true },
   startTime: { type: Number, required: true, default: -1 },
   startHp: { type: Number, required: true, default: 10000 },

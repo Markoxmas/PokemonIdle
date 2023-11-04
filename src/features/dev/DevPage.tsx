@@ -1,20 +1,23 @@
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Box from "@mui/material/Box";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
-  summonPokemon,
-  deleteAllPokemon,
-  deleteInventory,
-  createInventory,
+  restartAccount,
   addNormalSummonScrolls,
   addExp,
-  createBattleTimeline,
-  deleteBattleTimeline,
+  createSpecificPokemon,
 } from "./devSlice";
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
+import { useState } from "react";
 
 export default function DevPage() {
   const dispatch = useAppDispatch();
+  const pokedex = useAppSelector((state) => state.pokedex.pokedex);
+  const [selectedPokemon, setSelectedPokemon] = useState("Houndour");
+  const [selectedStars, setSelectedStars] = useState(3);
+  const [selectedLevel, setSelectedLevel] = useState(1);
 
   return (
     <Box
@@ -32,76 +35,88 @@ export default function DevPage() {
         variant="contained"
       >
         <Button
-          key="create-a-pokemon"
-          onClick={() => dispatch(summonPokemon(1))}
-        >
-          Create a pokemon
-        </Button>
-        <Button
-          key="create-5-pokemons"
-          onClick={() => dispatch(summonPokemon(5))}
-        >
-          Create 5 pokemons
-        </Button>
-        <Button
-          key="delete-all-pokemons"
-          onClick={() => dispatch(deleteAllPokemon())}
-        >
-          Delete all pokemons
-        </Button>
-      </ButtonGroup>
-      <ButtonGroup
-        orientation="vertical"
-        aria-label="vertical contained button group"
-        variant="contained"
-      >
-        <Button
-          key="restart-inventory"
+          key="restart-account"
           onClick={() => {
-            dispatch(deleteInventory());
+            dispatch(restartAccount());
           }}
         >
-          Delete inventory
+          Restart account
         </Button>
         <Button
-          key="create-inventory"
+          key="add-1000-scrolls-of-summon"
           onClick={() => {
-            dispatch(createInventory());
+            dispatch(addNormalSummonScrolls(1000));
           }}
         >
-          Create inventory
+          Add 1000 scrolls of summon
         </Button>
         <Button
-          key="add-100-normal-summon-scrolls"
-          onClick={() => dispatch(addNormalSummonScrolls(100))}
+          key="add-1m-exp"
+          onClick={() => {
+            dispatch(addExp(1000000));
+          }}
         >
-          Add 100 normal summon scrolls
-        </Button>
-        <Button
-          key="add-100-normal-summon-scrolls"
-          onClick={() => dispatch(addExp(10000))}
-        >
-          Add 10000 exp
+          Add 1M exp
         </Button>
       </ButtonGroup>
-      <ButtonGroup
-        orientation="vertical"
-        aria-label="vertical contained button group"
-        variant="contained"
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "10px",
+        }}
       >
+        <Autocomplete
+          disablePortal
+          id="pokemon-dropdown"
+          options={pokedex.map((pokemon) => pokemon.name)}
+          sx={{ width: 200 }}
+          renderInput={(params) => <TextField {...params} label="Pokemon" />}
+          value={selectedPokemon}
+          onChange={(event, newValue) => {
+            setSelectedPokemon(newValue);
+          }}
+        />
+        <Autocomplete
+          disablePortal
+          id="stars-dropdown"
+          options={[3, 4, 5, 6, 7, 8, 9, 10]}
+          sx={{ width: 200 }}
+          renderInput={(params) => <TextField {...params} label="Stars" />}
+          value={selectedStars}
+          onChange={(event, newValue) => {
+            setSelectedStars(newValue === null ? 3 : newValue);
+          }}
+        />
+        <Autocomplete
+          disablePortal
+          id="level-dropdown"
+          options={Array.from({ length: 300 }, (_, index) => index + 1)}
+          sx={{ width: 200 }}
+          renderInput={(params) => <TextField {...params} label="Level" />}
+          value={selectedLevel}
+          onChange={(event, newValue) => {
+            setSelectedLevel(newValue === null ? 1 : newValue);
+          }}
+        />
         <Button
-          key="create-timeline"
-          onClick={() => dispatch(createBattleTimeline())}
+          key="add-pokemon"
+          variant="contained"
+          onClick={() => {
+            dispatch(
+              createSpecificPokemon({
+                //@ts-ignore
+                name: selectedPokemon,
+                stars: selectedStars,
+                level: selectedLevel,
+              })
+            );
+          }}
         >
-          Create battle timeline
+          Add pokemon
         </Button>
-        <Button
-          key="delete-timeline"
-          onClick={() => dispatch(deleteBattleTimeline())}
-        >
-          Delete battle timeline
-        </Button>
-      </ButtonGroup>
+      </div>
     </Box>
   );
 }

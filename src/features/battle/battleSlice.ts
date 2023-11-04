@@ -3,6 +3,7 @@ import { Pokemon } from "../pokemon/pokemonSlice";
 import { initializeApp } from "../init/initSlice";
 import { Item } from "../inventory/inventorySlice";
 import { starUpPokemon } from "../upgrade/upgradeSlice";
+import { restartAccount } from "../dev/devSlice";
 
 type Checkpoint = {
   startTime: number;
@@ -141,6 +142,9 @@ export const summonSlice = createSlice({
       .addCase(updateBattleTimelineAfterLevelUp.fulfilled, (state, action) => {
         state.battleTimeline.checkpoints =
           action.payload.battleTimeline.checkpoints;
+      })
+      .addCase(restartAccount.fulfilled, (state, action) => {
+        state.battleTimeline = action.payload.battleTimeline;
       });
   },
 });

@@ -3,6 +3,8 @@ import { normalSummonPokemon } from "../summon/summonSlice";
 import { initializeApp } from "../init/initSlice";
 import { levelUpPokemon, starUpPokemon } from "../upgrade/upgradeSlice";
 import { SacrificeSlot } from "../upgrade/upgradeSlice";
+import { restartAccount } from "../dev/devSlice";
+import { createSpecificPokemon } from "../dev/devSlice";
 
 export type Pokemon = {
   _id: string;
@@ -133,6 +135,12 @@ export const navigationSlice = createSlice({
         state.pokemon = state.pokemon.filter(
           (pokemon) => !action.payload.sacrificedPokemon.includes(pokemon._id)
         );
+      })
+      .addCase(restartAccount.fulfilled, (state, action) => {
+        state.pokemon = action.payload.pokemon;
+      })
+      .addCase(createSpecificPokemon.fulfilled, (state, action) => {
+        state.pokemon = [...state.pokemon, action.payload.pokemon];
       });
   },
 });

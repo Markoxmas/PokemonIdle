@@ -17,60 +17,6 @@ const initialState: DevState = {
   success: null,
 };
 
-export const summonPokemon = createAsyncThunk(
-  "dev/summonPokemon",
-  async (amount: number) => {
-    const response = await fetch(
-      `http://localhost:3001/summon/normal/admin/${amount}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ amount }),
-      }
-    );
-    const data = await response.json();
-    return data;
-  }
-);
-
-export const deleteAllPokemon = createAsyncThunk(
-  "dev/deleteAllPokemon",
-  async () => {
-    const response = await fetch(`http://localhost:3001/pokemon/all/admin`, {
-      method: "DELETE",
-    });
-    const data = await response.json();
-    return data;
-  }
-);
-
-export const deleteInventory = createAsyncThunk(
-  "dev/deleteInventory",
-  async () => {
-    const response = await fetch(`http://localhost:3001/inventory/admin`, {
-      method: "DELETE",
-    });
-    const data = await response.json();
-    return data;
-  }
-);
-
-export const createInventory = createAsyncThunk(
-  "dev/createInventory",
-  async () => {
-    const response = await fetch(
-      `http://localhost:3001/inventory/create/admin`,
-      {
-        method: "POST",
-      }
-    );
-    const data = await response.json();
-    return data;
-  }
-);
-
 export const addNormalSummonScrolls = createAsyncThunk(
   "dev/addNormalSummonScrolls",
   async (amount: number) => {
@@ -99,22 +45,34 @@ export const addNormalSummonScrolls = createAsyncThunk(
 
 export const addExp = createAsyncThunk("dev/addExp", async (amount: number) => {
   const response = await fetch(
-    `http://localhost:3001/inventory/admin/exp/${amount}`,
+    `http://localhost:3001/inventory/add/item/admin`,
     {
       method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        item: {
+          stackable: true,
+          type: 0, //should be ItemKind.exp, but for some reason it gives an error
+          name: "Exp",
+          image: "exp",
+          amount: amount,
+        },
+      }),
     }
   );
   const data = await response.json();
   return data;
 });
 
-export const createBattleTimeline = createAsyncThunk(
-  "dev/createBattleTimeline",
+export const restartAccount = createAsyncThunk(
+  "dev/restartAccount",
   async () => {
     const response = await fetch(
-      `http://localhost:3001/battle/create/timeline/admin`,
+      `http://localhost:3001/init/restart/account/admin`,
       {
-        method: "POST",
+        method: "PUT",
       }
     );
     const data = await response.json();
@@ -122,15 +80,18 @@ export const createBattleTimeline = createAsyncThunk(
   }
 );
 
-export const deleteBattleTimeline = createAsyncThunk(
-  "dev/deleteBattleTimeline",
-  async () => {
-    const response = await fetch(
-      `http://localhost:3001/battle/delete/timeline/admin`,
-      {
-        method: "DELETE",
-      }
-    );
+export const createSpecificPokemon = createAsyncThunk(
+  "dev/createSpecificPokemon",
+  async (pokemonData: {
+    pokemonData: { name: string; stars: number; level: number };
+  }) => {
+    const response = await fetch(`http://localhost:3001/pokemon/create/admin`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ pokemonData }),
+    });
     const data = await response.json();
     return data;
   }
@@ -142,54 +103,6 @@ export const devSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(summonPokemon.pending, (state) => {
-        state.status = RequestStatus.Pending;
-        state.success = null;
-      })
-      .addCase(summonPokemon.fulfilled, (state, action) => {
-        state.status = RequestStatus.Success;
-        state.success = action.payload.message;
-      })
-      .addCase(summonPokemon.rejected, (state, action) => {
-        state.status = RequestStatus.Failure;
-        state.success = null;
-      })
-      .addCase(deleteAllPokemon.pending, (state) => {
-        state.status = RequestStatus.Pending;
-        state.success = null;
-      })
-      .addCase(deleteAllPokemon.fulfilled, (state, action) => {
-        state.status = RequestStatus.Success;
-        state.success = action.payload.message;
-      })
-      .addCase(deleteAllPokemon.rejected, (state, action) => {
-        state.status = RequestStatus.Failure;
-        state.success = null;
-      })
-      .addCase(deleteInventory.pending, (state) => {
-        state.status = RequestStatus.Pending;
-        state.success = null;
-      })
-      .addCase(deleteInventory.fulfilled, (state, action) => {
-        state.status = RequestStatus.Success;
-        state.success = action.payload.message;
-      })
-      .addCase(deleteInventory.rejected, (state, action) => {
-        state.status = RequestStatus.Failure;
-        state.success = null;
-      })
-      .addCase(createInventory.pending, (state) => {
-        state.status = RequestStatus.Pending;
-        state.success = null;
-      })
-      .addCase(createInventory.fulfilled, (state, action) => {
-        state.status = RequestStatus.Success;
-        state.success = action.payload.message;
-      })
-      .addCase(createInventory.rejected, (state, action) => {
-        state.status = RequestStatus.Failure;
-        state.success = null;
-      })
       .addCase(addNormalSummonScrolls.pending, (state) => {
         state.status = RequestStatus.Pending;
         state.success = null;
@@ -214,27 +127,15 @@ export const devSlice = createSlice({
         state.status = RequestStatus.Failure;
         state.success = null;
       })
-      .addCase(createBattleTimeline.pending, (state) => {
+      .addCase(restartAccount.pending, (state) => {
         state.status = RequestStatus.Pending;
         state.success = null;
       })
-      .addCase(createBattleTimeline.fulfilled, (state, action) => {
+      .addCase(restartAccount.fulfilled, (state, action) => {
         state.status = RequestStatus.Success;
         state.success = action.payload.message;
       })
-      .addCase(createBattleTimeline.rejected, (state, action) => {
-        state.status = RequestStatus.Failure;
-        state.success = null;
-      })
-      .addCase(deleteBattleTimeline.pending, (state) => {
-        state.status = RequestStatus.Pending;
-        state.success = null;
-      })
-      .addCase(deleteBattleTimeline.fulfilled, (state, action) => {
-        state.status = RequestStatus.Success;
-        state.success = action.payload.message;
-      })
-      .addCase(deleteBattleTimeline.rejected, (state, action) => {
+      .addCase(restartAccount.rejected, (state, action) => {
         state.status = RequestStatus.Failure;
         state.success = null;
       });

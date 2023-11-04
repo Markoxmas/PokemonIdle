@@ -50,7 +50,9 @@ export default function UpgradeModal() {
               component="h2"
               style={{ marginBottom: "20px" }}
             >
-              {sacrifices[sacrificeSlot.slot].length}/{sacrificeSlot.amount}
+              {sacrifices[sacrificeSlot.slot] &&
+                sacrifices[sacrificeSlot.slot].length}
+              /{sacrificeSlot.amount}
             </Typography>
             <div
               style={{

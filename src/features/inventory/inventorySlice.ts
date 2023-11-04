@@ -3,7 +3,8 @@ import { normalSummonPokemon } from "../summon/summonSlice";
 import { initializeApp } from "../init/initSlice";
 import { levelUpPokemon } from "../upgrade/upgradeSlice";
 import { claimDrops } from "../battle/battleSlice";
-import { addNormalSummonScrolls } from "../dev/devSlice";
+import { addNormalSummonScrolls, addExp } from "../dev/devSlice";
+import { restartAccount } from "../dev/devSlice";
 
 export enum ItemKind {
   exp,
@@ -58,11 +59,26 @@ export const inventorySlice = createSlice({
         state.items = action.payload.inventory.items;
       })
       .addCase(addNormalSummonScrolls.fulfilled, (state, action) => {
-        state.items = state.items.map((item) =>
-          item.type === ItemKind.normalSummonScroll
-            ? { ...item, amount: item.amount + action.payload.amount }
-            : item
-        );
+        state.items = [
+          ...state.items.map((item) =>
+            item.type === ItemKind.normalSummonScroll
+              ? { ...item, amount: item.amount + action.payload.item.amount }
+              : item
+          ),
+        ];
+      })
+      .addCase(addExp.fulfilled, (state, action) => {
+        state.items = [
+          ...state.items.map((item) =>
+            item.type === ItemKind.exp
+              ? { ...item, amount: item.amount + action.payload.item.amount }
+              : item
+          ),
+        ];
+      })
+      .addCase(restartAccount.fulfilled, (state, action) => {
+        state.user = action.payload.inventory.user;
+        state.items = action.payload.inventory.items;
       });
   },
 });
