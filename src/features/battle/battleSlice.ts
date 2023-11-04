@@ -75,6 +75,24 @@ export const claimDrops = createAsyncThunk(
   }
 );
 
+export const updateBattleTimelineAfterLevelUp = createAsyncThunk(
+  "battle/updateBattleTimelineAfterLevelUp",
+  async (upgradedPokemon: Pokemon) => {
+    const response = await fetch(
+      `http://localhost:3001/battle/upgrade/levelUp/admin`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ upgradedPokemon }),
+      }
+    );
+    const data = await response.json();
+    return data;
+  }
+);
+
 export const summonSlice = createSlice({
   name: "summon",
   initialState,
@@ -117,6 +135,10 @@ export const summonSlice = createSlice({
         state.status = "failed";
       })
       .addCase(starUpPokemon.fulfilled, (state, action) => {
+        state.battleTimeline.checkpoints =
+          action.payload.battleTimeline.checkpoints;
+      })
+      .addCase(updateBattleTimelineAfterLevelUp.fulfilled, (state, action) => {
         state.battleTimeline.checkpoints =
           action.payload.battleTimeline.checkpoints;
       });

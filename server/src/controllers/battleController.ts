@@ -7,6 +7,7 @@ import { addItemToInventory } from "../lib/addItemToInventory";
 import { Pokemon } from "../models/Pokemon";
 import { addCheckpointToTimeline } from "../lib/addCheckpointToTimeline";
 import mongoose from "mongoose";
+import { updateCheckpointPokemon } from "../lib/updateCheckpointPokemon";
 
 export const updateBattleTimelineController = async (
   req: Request,
@@ -188,5 +189,53 @@ export const claimDropsController = async (
     });
   } catch (error) {
     res.status(500).json({ message: "Failed to claim drops", error });
+  }
+};
+
+export const upgradeTimelineAfterLevelUpController = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { user } = req.params;
+    const { upgradedPokemon }: { upgradedPokemon: Pokemon } = req.body;
+
+    const battleTimeline = await BattleTimelineModel.findOne({ user });
+
+    if (!battleTimeline) {
+      res.status(404).json({ message: "Battle timeline not found" });
+      return;
+    }
+
+    const lastCheckpoint =
+      battleTimeline.checkpoints[battleTimeline.checkpoints.length - 1];
+
+    const pokemonChanges: {
+      update: Pokemon[];
+      remove: Pokemon[];
+    } = {
+      update: [],
+      remove: [],
+    };
+
+    if (upgradedPokemon.inBattle) {
+      pokemonChanges.update.push(upgradedPokemon);
+    }
+
+    if (lastCheckpoint) {
+      if (lastCheckpoint) {
+        battleTimeline.checkpoints.push(
+          updateCheckpointPokemon(lastCheckpoint, pokemonChanges)
+        );
+      }
+    }
+
+    await battleTimeline.save();
+
+    res.json({ battleTimeline });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Failed to upgrade timeline after level up", error });
   }
 };

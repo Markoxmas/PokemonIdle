@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Pokemon } from "../pokemon/pokemonSlice";
+import { setLevelUpTimeoutRef } from "../delayedAction/delayedActionSlice";
+import { updateBattleTimelineAfterLevelUp } from "../battle/battleSlice";
 
 export type SacrificeSlot = {
   name: string | null;
@@ -28,7 +30,7 @@ const initialState: UpgradeState = {
 
 export const levelUpPokemon = createAsyncThunk(
   "upgrade/levelUpPokemon",
-  async (pokemonId: string) => {
+  async (pokemonId: string, { dispatch }) => {
     const response = await fetch(
       `http://localhost:3001/upgrade/levelup/admin/${pokemonId}`,
       {
@@ -36,6 +38,15 @@ export const levelUpPokemon = createAsyncThunk(
       }
     );
     const data = await response.json();
+    if (data?.pokemon) {
+      dispatch(
+        setLevelUpTimeoutRef(
+          setTimeout(() => {
+            dispatch(updateBattleTimelineAfterLevelUp(data.pokemon));
+          }, 3000)
+        )
+      );
+    }
     return data;
   }
 );

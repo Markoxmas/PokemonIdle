@@ -6,6 +6,7 @@ import inventoryReducer from "../features/inventory/inventorySlice";
 import summonReducer from "../features/summon/summonSlice";
 import upgradeReducer from "../features/upgrade/upgradeSlice";
 import battleReducer from "../features/battle/battleSlice";
+import delayedActionReducer from "../features/delayedAction/delayedActionSlice";
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
     summon: summonReducer,
     upgrade: upgradeReducer,
     battle: battleReducer,
+    delayedAction: delayedActionReducer,
   },
 });
 
