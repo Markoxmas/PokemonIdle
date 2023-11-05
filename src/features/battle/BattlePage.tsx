@@ -1,12 +1,10 @@
 import Button from "@mui/material/Button";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { useState, useEffect } from "react";
 import BattlePokemonCard from "./BattlePokemonCard";
 import EmptyBattleSlot from "./EmptyBattleSlot";
 import { openBattleModal, claimDrops } from "./battleSlice";
 import BattleModal from "./BattleModal";
 import DropsModal from "./DropsModal";
-import { getTimer } from "../../lib/getTimer";
 import BattleTimer from "./BattleTimer";
 
 function BattlePage() {

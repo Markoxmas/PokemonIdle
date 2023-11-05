@@ -5,7 +5,11 @@ import inventoryRoutes from "./routes/inventoryRoutes";
 import initAppRoutes from "./routes/initAppRoutes";
 import upgradeRoutes from "./routes/upgradeRoutes";
 import battleRoutes from "./routes/battleRoutes";
+import authRoutes from "./routes/authRoutes";
 import mongoose from "mongoose";
+
+require("dotenv").config();
+
 const cors = require("cors");
 
 const app = express();
@@ -26,6 +30,7 @@ db.once("open", () => {
   console.log("Connected to MongoDB using Mongoose");
 });
 
+app.use("/auth", authRoutes);
 app.use("/summon", summonRoutes);
 app.use("/pokemon", pokemonRoutes);
 app.use("/inventory", inventoryRoutes);

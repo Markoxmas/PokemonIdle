@@ -9,10 +9,14 @@ import { useAppSelector } from "./app/hooks";
 import { useEffect } from "react";
 import { initializeApp } from "./features/init/initSlice";
 import { useAppDispatch } from "./app/hooks";
+import Login from "./features/auth/Login";
+import Register from "./features/auth/Register";
+import { AuthNav } from "./features/auth/authSlice";
 
 function App() {
   const dispatch = useAppDispatch();
   const tab = useAppSelector((state) => state.navigation.tab);
+  const { token, authNav } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(initializeApp());
@@ -20,12 +24,21 @@ function App() {
 
   return (
     <div>
-      <Navigation />
-      {tab === Tab.Battle && <BattlePage />}
-      {tab === Tab.Pokemon && <PokemonPage />}
-      {tab === Tab.Summon && <SummonPage />}
-      {tab === Tab.Dev && <DevPage />}
-      {tab === Tab.Upgrade && <UpgradePage />}
+      {token ? (
+        <>
+          <Navigation />
+          {tab === Tab.Battle && <BattlePage />}
+          {tab === Tab.Pokemon && <PokemonPage />}
+          {tab === Tab.Summon && <SummonPage />}
+          {tab === Tab.Dev && <DevPage />}
+          {tab === Tab.Upgrade && <UpgradePage />}
+        </>
+      ) : (
+        <>
+          {authNav === AuthNav.Login && <Login />}
+          {authNav === AuthNav.Register && <Register />}
+        </>
+      )}
     </div>
   );
 }
