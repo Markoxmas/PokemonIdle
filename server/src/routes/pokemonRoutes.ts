@@ -7,8 +7,8 @@ import {
 
 const router = express.Router();
 
-router.get("/all/:user", getAllPokemonController);
-router.delete("/all/:user", deleteUsersPokemonController);
-router.post("/create/:user", createSpecificPokemonController);
+router.get("/all/", getAllPokemonController);
+router.delete("/all/", deleteUsersPokemonController);
+router.post("/create/", createSpecificPokemonController);
 
 export default router;

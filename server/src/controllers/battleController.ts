@@ -14,7 +14,8 @@ export const updateBattleTimelineController = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { user } = req.params;
+    //@ts-ignore
+    const user = req.user;
     const { checkpointPokemons }: { checkpointPokemons: Pokemon[] } = req.body;
 
     let battleTimeline = await BattleTimelineModel.findOne({ user });
@@ -80,7 +81,8 @@ export const createBattleTimelineController = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { user } = req.params;
+    //@ts-ignore
+    const user = req.user;
 
     const battleTimeline = await BattleTimelineModel.findOne({ user });
 
@@ -109,7 +111,8 @@ export const deleteBattleTimelineController = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { user } = req.params;
+    //@ts-ignore
+    const user = req.user;
 
     await BattleTimelineModel.deleteOne({ user });
 
@@ -124,7 +127,8 @@ export const claimDropsController = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { user } = req.params;
+    //@ts-ignore
+    const user = req.user;
     const { checkpointPokemons } = req.body;
 
     const battleTimeline = await BattleTimelineModel.findOne({ user });
@@ -197,7 +201,8 @@ export const upgradeTimelineAfterLevelUpController = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { user } = req.params;
+    //@ts-ignore
+    const user = req.user;
     const { upgradedPokemon }: { upgradedPokemon: Pokemon } = req.body;
 
     const battleTimeline = await BattleTimelineModel.findOne({ user });

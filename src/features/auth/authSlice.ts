@@ -9,7 +9,6 @@ export interface AuthState {
   username: string;
   password: string;
   repeatPassword: string;
-  token: string;
   authNav: AuthNav;
   status: "idle" | "loading" | "succeeded" | "failed";
 }
@@ -18,7 +17,6 @@ const initialState: AuthState = {
   username: "",
   password: "",
   repeatPassword: "",
-  token: "",
   authNav: AuthNav.Login,
   status: "idle",
 };
@@ -81,7 +79,7 @@ export const authSlice = createSlice({
         state.username = "";
         state.password = "";
         state.repeatPassword = "";
-        state.token = action.payload.token;
+        localStorage.setItem("token", action.payload.token);
       })
       .addCase(registerUser.rejected, (state) => {
         state.username = "";
@@ -96,7 +94,7 @@ export const authSlice = createSlice({
         state.status = "succeeded";
         state.username = "";
         state.password = "";
-        state.token = action.payload.token;
+        localStorage.setItem("token", action.payload.token);
       })
       .addCase(loginUser.rejected, (state) => {
         state.username = "";

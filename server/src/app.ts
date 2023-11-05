@@ -7,6 +7,7 @@ import upgradeRoutes from "./routes/upgradeRoutes";
 import battleRoutes from "./routes/battleRoutes";
 import authRoutes from "./routes/authRoutes";
 import mongoose from "mongoose";
+import authenticateToken from "./authenticateToken";
 
 require("dotenv").config();
 
@@ -31,6 +32,10 @@ db.once("open", () => {
 });
 
 app.use("/auth", authRoutes);
+
+app.use(authenticateToken);
+
+//Protected routes
 app.use("/summon", summonRoutes);
 app.use("/pokemon", pokemonRoutes);
 app.use("/inventory", inventoryRoutes);

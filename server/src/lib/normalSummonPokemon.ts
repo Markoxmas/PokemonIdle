@@ -17,7 +17,7 @@ const getStars = (starRoll: number) => {
   }
 };
 
-export const normalSummonPokemon = () => {
+export const normalSummonPokemon = (user: string) => {
   const basicPokemon = getPokedex().filter((pokemon) => pokemon.basic);
   const chosenPokemon =
     basicPokemon[Math.floor(Math.random() * basicPokemon.length)];
@@ -26,7 +26,7 @@ export const normalSummonPokemon = () => {
   let pokemon = {
     _id: new mongoose.Types.ObjectId(),
     pokedexId: chosenPokemon.id,
-    user: "admin",
+    user: user,
     name: chosenPokemon.name,
     level: 1,
     stars: getStars(starRoll),

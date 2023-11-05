@@ -10,7 +10,13 @@ const initialState: InitState = {
 };
 
 export const initializeApp = createAsyncThunk("init/initalizeApp", async () => {
-  const response = await fetch(`http://localhost:3001/init/admin`);
+  const response = await fetch(`http://localhost:3001/init`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `${localStorage.getItem("token")}`,
+    },
+  });
   const data = await response.json();
   return data;
 });

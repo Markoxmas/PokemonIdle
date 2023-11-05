@@ -32,9 +32,13 @@ export const levelUpPokemon = createAsyncThunk(
   "upgrade/levelUpPokemon",
   async (pokemonId: string, { dispatch }) => {
     const response = await fetch(
-      `http://localhost:3001/upgrade/levelup/admin/${pokemonId}`,
+      `http://localhost:3001/upgrade/levelup/${pokemonId}`,
       {
         method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${localStorage.getItem("token")}`,
+        },
       }
     );
     const data = await response.json();
@@ -61,7 +65,7 @@ export const starUpPokemon = createAsyncThunk(
     sacrifices: Array<Array<string>>;
   }) => {
     const response = await fetch(
-      `http://localhost:3001/upgrade/starup/admin/${pokemonId}`,
+      `http://localhost:3001/upgrade/starup/${pokemonId}`,
       {
         method: "PATCH",
         headers: {

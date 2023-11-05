@@ -12,7 +12,8 @@ export const getAllPokemonController = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { user } = req.params;
+    //@ts-ignore
+    const user = req.user;
 
     const pokemonInventory = await PokemonModel.find({ user });
 
@@ -27,7 +28,8 @@ export const deleteUsersPokemonController = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { user } = req.params;
+    //@ts-ignore
+    const user = req.user;
 
     await PokemonModel.deleteMany({ user });
 
@@ -42,7 +44,8 @@ export const createSpecificPokemonController = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { user } = req.params;
+    //@ts-ignore
+    const user = req.user;
     const {
       pokemonData,
     }: { pokemonData: { name: string; stars: number; level: number } } =

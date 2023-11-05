@@ -17,11 +17,12 @@ export const normalSummonPokemon = createAsyncThunk(
   "pokemon/normalSummonPokemon",
   async (amount: number) => {
     const response = await fetch(
-      `http://localhost:3001/summon/normal/admin/${amount}`,
+      `http://localhost:3001/summon/normal/${amount}`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `${localStorage.getItem("token")}`,
         },
         body: JSON.stringify({ amount }),
       }

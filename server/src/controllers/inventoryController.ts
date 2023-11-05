@@ -9,7 +9,8 @@ export const getInventoryController = async (
   res: Response
 ): Promise<void> => {
   try {
-    const user = req.params.user;
+    //@ts-ignore
+    const user = req.user;
 
     const inventory = await Inventory.findOne({ user });
 
@@ -29,7 +30,8 @@ export const createInventoryController = async (
   res: Response
 ): Promise<void> => {
   try {
-    const user = req.params.user;
+    //@ts-ignore
+    const user = req.user;
 
     const existingInventory = await Inventory.findOne({ user });
 
@@ -80,7 +82,8 @@ export const deleteUsersInventoryController = async (
   res: Response
 ): Promise<void> => {
   try {
-    const user = req.params.user;
+    //@ts-ignore
+    const user = req.user;
 
     const result = await Inventory.deleteOne({ user });
 
@@ -100,7 +103,8 @@ export const addItemToInventoryController = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { user } = req.params;
+    //@ts-ignore
+    const user = req.user;
     const { item } = req.body;
 
     const inventory = await Inventory.findOne({ user });

@@ -18,7 +18,9 @@ export const levelUpController = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { id, user } = req.params;
+    //@ts-ignore
+    const user = req.user;
+    const { id } = req.params;
 
     const pokemon = await PokemonModel.findOne({ _id: id, user });
 
@@ -70,7 +72,9 @@ export const starUpController = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { user, id } = req.params;
+    //@ts-ignore
+    const user = req.user;
+    const { id } = req.params;
     const sacrifices = req.body.sacrifices;
 
     //Get initial pokemon

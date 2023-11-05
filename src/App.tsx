@@ -16,7 +16,8 @@ import { AuthNav } from "./features/auth/authSlice";
 function App() {
   const dispatch = useAppDispatch();
   const tab = useAppSelector((state) => state.navigation.tab);
-  const { token, authNav } = useAppSelector((state) => state.auth);
+  const { authNav } = useAppSelector((state) => state.auth);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     dispatch(initializeApp());

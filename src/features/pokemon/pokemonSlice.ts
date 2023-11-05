@@ -34,7 +34,13 @@ const initialState: PokemonState = {
 export const fetchAllPokemon = createAsyncThunk(
   "pokemon/fetchAllPokemon",
   async () => {
-    const response = await fetch(`http://localhost:3001/pokemon`);
+    const response = await fetch(`http://localhost:3001/pokemon`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("token")}`,
+      },
+    });
     const data = await response.json();
     return data;
   }

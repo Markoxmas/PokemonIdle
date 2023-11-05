@@ -25,7 +25,7 @@ export interface InventoryState {
 }
 
 const initialState: InventoryState = {
-  user: "admin",
+  user: "",
   items: [],
 };
 

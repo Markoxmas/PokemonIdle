@@ -6,7 +6,7 @@ import {
 
 const router = express.Router();
 
-router.get("/:user", initAppController);
-router.put("/restart/account/:user", restartUserAccountController);
+router.get("/", initAppController);
+router.put("/restart/account/", restartUserAccountController);
 
 export default router;

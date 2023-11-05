@@ -20,6 +20,7 @@ export const registerUserController = async (
     const newUser = new User({ username, password: hashedPassword });
     await newUser.save();
 
+    require("dotenv").config();
     const secretKey = process.env.SECRET_KEY;
 
     if (!secretKey) {
@@ -30,7 +31,7 @@ export const registerUserController = async (
       expiresIn: "24h",
     });
 
-    res.status(201).json({ message: "User registered successfully", token });
+    res.status(201).json({ token });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
@@ -54,6 +55,7 @@ export const loginUserController = async (
         return;
       }
 
+      require("dotenv").config();
       const secretKey = process.env.SECRET_KEY;
 
       if (!secretKey) {

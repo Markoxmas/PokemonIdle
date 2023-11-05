@@ -9,12 +9,12 @@ import {
 
 const router = express.Router();
 
-router.patch("/update/timeline/:user", updateBattleTimelineController);
-router.post("/create/timeline/:user", createBattleTimelineController);
-router.delete("/delete/timeline/:user", deleteBattleTimelineController);
-router.patch("/claim/drops/:user", claimDropsController);
+router.patch("/update/timeline/", updateBattleTimelineController);
+router.post("/create/timeline/", createBattleTimelineController);
+router.delete("/delete/timeline/", deleteBattleTimelineController);
+router.patch("/claim/drops/", claimDropsController);
 router.patch(
-  "/update/timeline/levelup/:user",
+  "/update/timeline/levelup/",
   upgradeTimelineAfterLevelUpController
 );
 

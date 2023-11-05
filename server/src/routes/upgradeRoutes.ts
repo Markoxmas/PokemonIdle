@@ -6,7 +6,7 @@ import {
 
 const router = express.Router();
 
-router.patch("/levelup/:user/:id", levelUpController);
-router.patch("/starup/:user/:id", starUpController);
+router.patch("/levelup/:id", levelUpController);
+router.patch("/starup/:id", starUpController);
 
 export default router;

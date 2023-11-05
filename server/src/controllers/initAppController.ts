@@ -10,7 +10,8 @@ export const initAppController = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { user } = req.params;
+    //@ts-ignore
+    const user = req.user;
 
     const pokemon = await PokemonModel.find({ user });
 
@@ -36,16 +37,17 @@ export const restartUserAccountController = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { user } = req.params;
+    //@ts-ignore
+    const user = req.user;
 
-    //Delete all user's pokemon
-    await PokemonModel.deleteMany({ user });
-
-    //Delete user's inventory
-    await InventoryModel.deleteOne({ user });
-
-    //Delete user's battle timeline
-    await BattleTimelineModel.deleteOne({ user });
+    try {
+      await PokemonModel.deleteMany({ user });
+      await InventoryModel.deleteOne({ user });
+      await BattleTimelineModel.deleteOne({ user });
+    } catch (error) {
+      console.error("Error deleting user account data");
+      res.status(500).json({ message: "Internal server error" });
+    }
 
     //Create new inventory
     const inventory = new InventoryModel({

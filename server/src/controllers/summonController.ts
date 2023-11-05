@@ -11,7 +11,9 @@ export const normalSummonController = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { amount, user } = req.params;
+    //@ts-ignore
+    const user = req.user;
+    const { amount } = req.params;
     const parsedAmount = parseInt(amount, 10);
 
     if (isNaN(parsedAmount) || parsedAmount <= 0) {
@@ -33,7 +35,7 @@ export const normalSummonController = async (
     const summonedPokemon = [];
 
     for (let i = 0; i < parsedAmount; i++) {
-      const pokemon = normalSummonPokemon();
+      const pokemon = normalSummonPokemon(user);
       const newPokemon = new PokemonModel(pokemon);
       await newPokemon.save();
       summonedPokemon.push(newPokemon);

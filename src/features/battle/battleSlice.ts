@@ -28,7 +28,7 @@ export interface BattleState {
 
 const initialState: BattleState = {
   battleTimeline: {
-    user: "admin",
+    user: "",
     startTime: -1,
     startHp: 10000,
     maxHp: 10000,
@@ -44,11 +44,12 @@ export const updateBattleTimeline = createAsyncThunk(
   "battle/updateBattleTimeline",
   async (checkpointPokemons: Pokemon[]) => {
     const response = await fetch(
-      `http://localhost:3001/battle/update/timeline/admin`,
+      `http://localhost:3001/battle/update/timeline`,
       {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `${localStorage.getItem("token")}`,
         },
         body: JSON.stringify({ checkpointPokemons }),
       }
@@ -61,16 +62,14 @@ export const updateBattleTimeline = createAsyncThunk(
 export const claimDrops = createAsyncThunk(
   "battle/claimDrops",
   async (pokemon: Pokemon[]) => {
-    const response = await fetch(
-      `http://localhost:3001/battle/claim/drops/admin`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ checkpointPokemons: pokemon }),
-      }
-    );
+    const response = await fetch(`http://localhost:3001/battle/claim/drops`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify({ checkpointPokemons: pokemon }),
+    });
     const data = await response.json();
     return data;
   }
@@ -80,11 +79,12 @@ export const updateBattleTimelineAfterLevelUp = createAsyncThunk(
   "battle/updateBattleTimelineAfterLevelUp",
   async (upgradedPokemon: Pokemon) => {
     const response = await fetch(
-      `http://localhost:3001/battle/update/timeline/levelup/admin`,
+      `http://localhost:3001/battle/update/timeline/levelup`,
       {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `${localStorage.getItem("token")}`,
         },
         body: JSON.stringify({ upgradedPokemon }),
       }

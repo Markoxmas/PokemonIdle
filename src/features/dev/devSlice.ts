@@ -20,48 +20,44 @@ const initialState: DevState = {
 export const addNormalSummonScrolls = createAsyncThunk(
   "dev/addNormalSummonScrolls",
   async (amount: number) => {
-    const response = await fetch(
-      "http://localhost:3001/inventory/add/item/admin",
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
+    const response = await fetch("http://localhost:3001/inventory/add/item", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify({
+        item: {
+          stackable: true,
+          type: 1, //should be ItemKind.normalSummonScroll, but for some reason it gives an error
+          name: "Normal Summon Scroll",
+          image: "normalSummonScroll",
+          amount: amount,
         },
-        body: JSON.stringify({
-          item: {
-            stackable: true,
-            type: 1, //should be ItemKind.normalSummonScroll, but for some reason it gives an error
-            name: "Normal Summon Scroll",
-            image: "normalSummonScroll",
-            amount: amount,
-          },
-        }),
-      }
-    );
+      }),
+    });
     const data = await response.json();
     return data;
   }
 );
 
 export const addExp = createAsyncThunk("dev/addExp", async (amount: number) => {
-  const response = await fetch(
-    `http://localhost:3001/inventory/add/item/admin`,
-    {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
+  const response = await fetch(`http://localhost:3001/inventory/add/item`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `${localStorage.getItem("token")}`,
+    },
+    body: JSON.stringify({
+      item: {
+        stackable: true,
+        type: 0, //should be ItemKind.exp, but for some reason it gives an error
+        name: "Exp",
+        image: "exp",
+        amount: amount,
       },
-      body: JSON.stringify({
-        item: {
-          stackable: true,
-          type: 0, //should be ItemKind.exp, but for some reason it gives an error
-          name: "Exp",
-          image: "exp",
-          amount: amount,
-        },
-      }),
-    }
-  );
+    }),
+  });
   const data = await response.json();
   return data;
 });
@@ -69,12 +65,13 @@ export const addExp = createAsyncThunk("dev/addExp", async (amount: number) => {
 export const restartAccount = createAsyncThunk(
   "dev/restartAccount",
   async () => {
-    const response = await fetch(
-      `http://localhost:3001/init/restart/account/admin`,
-      {
-        method: "PUT",
-      }
-    );
+    const response = await fetch(`http://localhost:3001/init/restart/account`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("token")}`,
+      },
+    });
     const data = await response.json();
     return data;
   }
@@ -85,10 +82,11 @@ export const createSpecificPokemon = createAsyncThunk(
   async (pokemonData: {
     pokemonData: { name: string; stars: number; level: number };
   }) => {
-    const response = await fetch(`http://localhost:3001/pokemon/create/admin`, {
+    const response = await fetch(`http://localhost:3001/pokemon/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("token")}`,
       },
       body: JSON.stringify({ pokemonData }),
     });
